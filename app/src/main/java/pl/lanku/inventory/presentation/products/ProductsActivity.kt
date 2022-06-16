@@ -28,7 +28,14 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
         findViewById<FloatingActionButton>(R.id.add_product_button).setOnClickListener {
-            viewModel.save(Product("ean", "Test product", "description...", "c1"))
+            val ean = "";
+            val name = "";
+            val description = "";
+            val category = "";
+            viewModel.save(Product(ean, name, description, category))
+        }
+        findViewById<FloatingActionButton>(R.id.remove_product_button).setOnClickListener {
+            viewModel.deleteAll();
         }
     }
 }
