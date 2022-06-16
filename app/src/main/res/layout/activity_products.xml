@@ -12,13 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="Produkt 1\n Produkt 2\n .." />
+        tools:text="Produkt 1\nProdukt 2\n..." />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_product_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:layout_margin="2dp"
         android:contentDescription="@null"
         android:tint="@color/white"
         app:srcCompat="@drawable/ic_baseline_add_24"
@@ -29,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|bottom"
+        android:layout_margin="2dp"
         android:contentDescription="@null"
         android:tint="@color/white"
         app:srcCompat="@android:drawable/dialog_holo_light_frame"
@@ -42,8 +44,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="ean"
-        android:autofillHints="" />
+        android:hint="ean" />
 
     <EditText
         android:id="@+id/name"
@@ -53,7 +54,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="name" />
+        android:hint="name" />
 
     <EditText
         android:id="@+id/description"
@@ -63,7 +64,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="desciption" />
+        android:hint="desciption" />
 
     <EditText
         android:id="@+id/category"
@@ -74,7 +75,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="category"
+        android:hint="category"
         android:autofillHints="" />
 
 </FrameLayout>
