@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="Produkt 1, Produkt 2, .." />
+        tools:text="Produkt 1\n Produkt 2\n .." />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_product_button"
