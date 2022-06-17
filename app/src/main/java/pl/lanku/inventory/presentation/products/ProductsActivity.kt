@@ -34,10 +34,10 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
         findViewById<FloatingActionButton>(R.id.add_product_button).setOnClickListener {
-            ean = findViewById<EditText>(R.id.ean).toString()
-            name = findViewById<EditText>(R.id.name).toString()
-            description = findViewById<EditText>(R.id.description).toString()
-            category = findViewById<EditText>(R.id.category).toString()
+            ean = findViewById<EditText>(R.id.ean).text.toString()
+            name = findViewById<EditText>(R.id.name).text.toString()
+            description = findViewById<EditText>(R.id.description).text.toString()
+            category = findViewById<EditText>(R.id.category).text.toString()
             val tempValid = validationData(ean,name,description,category)
             checkValid(tempValid)
         }
@@ -47,8 +47,13 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun checkValid(tempValid: Boolean) {
-        if (tempValid)
+        if (tempValid) {
             viewModel.save(Product(ean, name, description, category))
+            findViewById<EditText>(R.id.ean).text.clear()
+            findViewById<EditText>(R.id.name).text.clear()
+            findViewById<EditText>(R.id.description).text.clear()
+            findViewById<EditText>(R.id.category).text.clear()
+        }
         else
             Toast.makeText(this,"Please check your data",Toast.LENGTH_LONG).show()
     }
