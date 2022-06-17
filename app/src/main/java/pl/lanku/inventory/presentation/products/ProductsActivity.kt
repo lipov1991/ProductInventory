@@ -1,5 +1,6 @@
 package pl.lanku.inventory.presentation.products
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
@@ -56,8 +57,6 @@ class ProductsActivity : AppCompatActivity() {
         if (tempValid)
             viewModel.save(Product(ean, name, description, category))
         else
-        {
-            Toast.makeText(this,"Proszę sprawdzić dane").show()
-        }
+            Toast.makeText(this,"Proszę sprawdzić dane",Toast.LENGTH_LONG).show()
     }
 }
