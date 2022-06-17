@@ -1,13 +1,11 @@
 package pl.lanku.inventory.presentation.products
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.data.entity.Product
@@ -48,15 +46,15 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
 
-    private fun validationData(tempEAN : String, tempName : String, tempDescription : String, tempCategory : String): Boolean {
-        return tempEAN.nonEmpty()&&tempCategory.nonEmpty()&&tempDescription.nonEmpty()&&tempCategory.nonEmpty()
-    }
-
-    private fun checkValid(tempValid : Boolean)
-    {
+    private fun checkValid(tempValid: Boolean) {
         if (tempValid)
             viewModel.save(Product(ean, name, description, category))
         else
-            Toast.makeText(this,"Proszę sprawdzić dane",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Please check your data",Toast.LENGTH_LONG).show()
     }
+
+    private fun validationData(tempEAN : String, tempName : String, tempDescription : String, tempCategory : String): Boolean {
+        return tempEAN.isNotEmpty()&&tempName.isNotEmpty()&&tempDescription.isNotEmpty()&&tempCategory.isNotEmpty()
+    }
+
 }
