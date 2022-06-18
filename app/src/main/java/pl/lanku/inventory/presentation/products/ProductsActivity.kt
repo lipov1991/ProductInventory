@@ -26,9 +26,9 @@ class ProductsActivity : AppCompatActivity() {
                 it.text = ""
                 products.forEachIndexed { index, product ->
                     if (index == 0) {
-                        it.text = String.format("%s", product.name)
+                        it.text = String.format("%s - %s - %s \n", product.ean, product.name, product.category)
                     } else {
-                        it.text = String.format("%s, %s", it.text, product.name)
+                        it.text = String.format("%s\n%s - %s - %s", it.text, product.ean, product.name, product.category)
                     }
                 }
             }
