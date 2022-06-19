@@ -93,7 +93,7 @@
         android:autofillHints="" />
 
     <Button
-        android:id="@+id/showQRScanner"
+        android:id="@+id/qrScanner"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="SCAN QR-CODE"
