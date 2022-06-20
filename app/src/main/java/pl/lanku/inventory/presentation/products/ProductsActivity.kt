@@ -11,15 +11,15 @@ import pl.lanku.inventory.R
 import pl.lanku.inventory.data.entity.Product
 
 class ProductsActivity : AppCompatActivity() {
-    class ProductsActivity(ean: String?) {
-        
-    }
-
     private var viewModel: ProductsViewModel by viewModel()
     private var ean : String = ""
     private var name : String = ""
     private var description : String = ""
     private var category : String = ""
+
+    class ProductsActivity(private val ean: String?) {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
