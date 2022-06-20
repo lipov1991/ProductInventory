@@ -8,16 +8,19 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginTop="110dp"
         android:layout_width="fill_parent"
-        android:layout_height="400dp">
+        android:layout_height="464dp"
+        android:layout_marginTop="110dp">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/products_text_view"
                     android:layout_width="wrap_content"
@@ -97,6 +100,6 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="SCAN QR-CODE"
-        android:layout_gravity="center|bottom" />
+        android:layout_gravity="center|bottom"/>
 
 </FrameLayout>

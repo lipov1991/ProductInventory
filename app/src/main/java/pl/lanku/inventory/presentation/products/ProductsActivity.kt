@@ -11,12 +11,15 @@ import pl.lanku.inventory.R
 import pl.lanku.inventory.data.entity.Product
 
 class ProductsActivity : AppCompatActivity() {
+    class ProductsActivity(ean: String?) {
+        
+    }
 
-    private val viewModel: ProductsViewModel by viewModel()
-    private var ean = ""
-    private var name = ""
-    private var description = ""
-    private var category = ""
+    private var viewModel: ProductsViewModel by viewModel()
+    private var ean : String = ""
+    private var name : String = ""
+    private var description : String = ""
+    private var category : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,11 @@ class ProductsActivity : AppCompatActivity() {
                 }
             }
         }
+
+        findViewById<EditText>(R.id.ean).setOnClickListener{
+            setContentView(R.layout.activity_scanner)
+        }
+
         findViewById<FloatingActionButton>(R.id.add_product_button).setOnClickListener {
             ean = findViewById<EditText>(R.id.ean).text.toString()
             name = findViewById<EditText>(R.id.name).text.toString()

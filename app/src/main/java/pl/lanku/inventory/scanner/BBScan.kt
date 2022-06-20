@@ -3,6 +3,7 @@ package pl.lanku.inventory.scanner
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,6 +15,7 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import pl.lanku.inventory.R
+import pl.lanku.inventory.presentation.products.ProductsActivity
 
 class BBScan : AppCompatActivity() {
     
@@ -27,27 +29,27 @@ class BBScan : AppCompatActivity() {
             } else {
                 startScanning()
             }
+            findViewById<EditText>(R.id.back).setOnClickListener{
+                setContentView(R.layout.activity_products)
+            }
         }
-
+    
         private fun startScanning() {
-            // Parameters (default values)
             val scannerView: CodeScannerView = findViewById(R.id.scanner_view)
             codeScanner = CodeScanner(this, scannerView)
-            codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
-            codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
-            // ex. listOf(BarcodeFormat.QR_CODE)
-            codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
-            codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
-            codeScanner.isAutoFocusEnabled = true // Whether to enable auto focus or not
-            codeScanner.isFlashEnabled = false // Whether to enable flash or not
+            codeScanner.camera = CodeScanner.CAMERA_BACK
+            codeScanner.formats = CodeScanner.ALL_FORMATS
+            codeScanner.autoFocusMode = AutoFocusMode.SAFE
+            codeScanner.scanMode = ScanMode.SINGLE
+            codeScanner.isAutoFocusEnabled = true
+            codeScanner.isFlashEnabled = false
 
-            // Callbacks
             codeScanner.decodeCallback = DecodeCallback {
                 runOnUiThread {
-                    Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
+                    ProductsActivity.ProductsActivity(it.text)
                 }
             }
-            codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+            codeScanner.errorCallback = ErrorCallback {
                 runOnUiThread {
                     Toast.makeText(this, "Camera initialization error: ${it.message}",
                         Toast.LENGTH_LONG).show()
