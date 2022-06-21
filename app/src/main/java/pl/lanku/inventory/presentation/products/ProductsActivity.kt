@@ -6,44 +6,29 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.data.entity.Product
+import pl.lanku.inventory.untils.CameraStart
 
 
-class ProductsActivity : AppCompatActivity() {
-
-    companion object {
-        private const val MAIN_CAMERA_ID = 0
-    }
+open class ProductsActivity : AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
-    private var barcodeContent: String = ""
+    var barcodeContent: String = ""
     private var name: String = ""
     private var description: String = ""
     private var category: String = ""
-    private val barcodeLauncher =
-        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
-            if (result.contents.isNullOrBlank()) {
-                setFormFieldsEnabled(false)
-                Toast.makeText(this@ProductsActivity, "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
-                setFormFieldsEnabled(true)
-                barcodeContent = result.contents
-            }
-        }
-    private val formFiledValueChangeListener = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
+    private val nameET: EditText = findViewById<EditText>(R.id.name)
+    private val descriptionET: EditText = findViewById<EditText>(R.id.description)
+    private val categoryET: EditText = findViewById<EditText>(R.id.description)
 
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
+    private val formFiledValueChangeListener = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
 
         override fun afterTextChanged(editable: Editable) {
             validateForm()
@@ -51,19 +36,19 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun validateForm() {
-        name = findViewById<EditText>(R.id.name).text.toString()
-        description = findViewById<EditText>(R.id.description).text.toString()
-        category = findViewById<EditText>(R.id.category).text.toString()
+        name = nameET.text.toString()
+        description = descriptionET.text.toString()
+        category = categoryET.text.toString()
         findViewById<FloatingActionButton>(R.id.save_product_button)?.isEnabled =
             barcodeContent.isNotBlank() && name.isNotBlank() && description.isNotBlank() && category.isNotBlank()
     }
 
-    private fun setFormFieldsEnabled(
+    fun setFormFieldsEnabled(
         enable: Boolean
     ) {
-        findViewById<EditText>(R.id.name).isEnabled = enable
-        findViewById<EditText>(R.id.description).isEnabled = enable
-        findViewById<EditText>(R.id.category).isEnabled = enable
+        nameET.isEnabled = enable
+        descriptionET.isEnabled = enable
+        categoryET.isEnabled = enable
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,17 +60,19 @@ class ProductsActivity : AppCompatActivity() {
                 products.forEachIndexed { index, product ->
                     if (index == 0) {
                         it.text = String.format(
-                            "%s - %s - %s \n",
+                            "%s\t%s\t%s\t%s\n",
                             product.ean,
                             product.name,
+                            product.description,
                             product.category
                         )
                     } else {
                         it.text = String.format(
-                            "%s\n%s - %s - %s",
+                            "%s\n%s\t%s\t%s\t%s",
                             it.text,
                             product.ean,
                             product.name,
+                            product.description,
                             product.category
                         )
                     }
@@ -93,32 +80,27 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.qrScanner).setOnClickListener {
-            val options = ScanOptions().apply {
-                setPrompt(getString(R.string.qr_scanner_prompt))
-                setCameraId(MAIN_CAMERA_ID)
-                setBeepEnabled(false)
-                setBarcodeImageEnabled(true)
-            }
-            barcodeLauncher.launch(options)
+        findViewById<Button>(R.id.qrScanner).setOnClickListener{
+            CameraStart.startCamera(savedInstanceState);
         }
 
         findViewById<FloatingActionButton>(R.id.save_product_button).setOnClickListener {
             viewModel.save(Product(barcodeContent, name, description, category))
-            findViewById<EditText>(R.id.name).text.clear()
-            findViewById<EditText>(R.id.description).text.clear()
-            findViewById<EditText>(R.id.category).text.clear()
+            nameET.text.clear()
+            descriptionET.text.clear()
+            categoryET.text.clear()
             setFormFieldsEnabled(false)
         }
+
         findViewById<FloatingActionButton>(R.id.remove_product_button).setOnClickListener {
             viewModel.deleteAll()
         }
 
-        findViewById<EditText>(R.id.name)?.addTextChangedListener(formFiledValueChangeListener)
-        findViewById<EditText>(R.id.description)?.addTextChangedListener(
+        nameET.addTextChangedListener(formFiledValueChangeListener)
+        descriptionET.addTextChangedListener(
             formFiledValueChangeListener
         )
-        findViewById<EditText>(R.id.category)?.addTextChangedListener(formFiledValueChangeListener)
+        categoryET.addTextChangedListener(formFiledValueChangeListener)
     }
 
 }

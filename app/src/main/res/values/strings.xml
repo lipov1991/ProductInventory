@@ -10,4 +10,11 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="qr_scanner_prompt">"Zeskanuj kod produktu"</string>
+
+    <!-- activity_products.xml -->
+    <string name="name_product">"Nazwa produktu"</string>
+    <string name="destription_product">"Opis produktu"</string>
+    <string name="category_product">Kategoria produktu</string>
+    <string name="qr_scan">Skaner kodów</string>
+
 </resources>
