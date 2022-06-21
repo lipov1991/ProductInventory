@@ -15,4 +15,8 @@ class ProductsViewModel(private val productsRepository: ProductRepository) : Vie
     fun save(product: Product) = viewModelScope.launch {
         productsRepository.save(product)
     }
+
+    fun deleteAll() = viewModelScope.launch {
+        productsRepository.deleteAll()
+    }
 }

@@ -13,7 +13,7 @@ interface ProductDao {
     @Query("SELECT * FROM product;")
     fun getAll(): Flow<List<Product>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(product: Product)
 
     @Query("DELETE FROM product;")
