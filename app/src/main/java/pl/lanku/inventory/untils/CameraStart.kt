@@ -10,16 +10,6 @@ import pl.lanku.inventory.presentation.products.ProductsActivity
 object CameraStart : ProductsActivity() {
 
     private const val MAIN_CAMERA_ID = 0
-    fun startCamera()  {
-        val options = ScanOptions().apply {
-            this.setPrompt(getString(R.string.qr_scanner_prompt))
-            this.setCameraId(MAIN_CAMERA_ID)
-            this.setBeepEnabled(false)
-            this.setBarcodeImageEnabled(true)
-        }
-        barcodeLauncher.launch(options)
-    }
-
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -30,4 +20,14 @@ object CameraStart : ProductsActivity() {
                 barcodeContent = result.contents
             }
         }
+
+    fun startCamera()  {
+        val options = ScanOptions().apply {
+            this.setPrompt(getString(R.string.qr_scanner_prompt))
+            this.setCameraId(MAIN_CAMERA_ID)
+            this.setBeepEnabled(false)
+            this.setBarcodeImageEnabled(true)
+        }
+        barcodeLauncher.launch(options)
+    }
 }

@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
+import pl.lanku.inventory.R.id.remove_product_button
+import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.data.entity.Product
 import pl.lanku.inventory.untils.CameraStart.startCamera
 
@@ -39,7 +41,7 @@ open class ProductsActivity : AppCompatActivity() {
         name = nameET.text.toString()
         description = descriptionET.text.toString()
         category = categoryET.text.toString()
-        findViewById<FloatingActionButton>(R.id.save_product_button)?.isEnabled =
+        findViewById<FloatingActionButton>(save_product_button)?.isEnabled =
             barcodeContent.isNotBlank() && name.isNotBlank() && description.isNotBlank() && category.isNotBlank()
     }
 
@@ -60,7 +62,7 @@ open class ProductsActivity : AppCompatActivity() {
                 products.forEachIndexed { index, product ->
                     if (index == 0) {
                         it.text = String.format(
-                            "%s\t%s\t%s\t%s\n",
+                            "%s - %s - %s - %s\n",
                             product.ean,
                             product.name,
                             product.description,
@@ -68,7 +70,7 @@ open class ProductsActivity : AppCompatActivity() {
                         )
                     } else {
                         it.text = String.format(
-                            "%s\n%s\t%s\t%s\t%s",
+                            "%s\n%s - %s - %s - %s",
                             it.text,
                             product.ean,
                             product.name,
@@ -84,7 +86,7 @@ open class ProductsActivity : AppCompatActivity() {
             startCamera()
         }
 
-        findViewById<FloatingActionButton>(R.id.save_product_button).setOnClickListener {
+        findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
             viewModel.save(Product(barcodeContent, name, description, category))
             nameET.text.clear()
             descriptionET.text.clear()
@@ -92,7 +94,7 @@ open class ProductsActivity : AppCompatActivity() {
             setFormFieldsEnabled(false)
         }
 
-        findViewById<FloatingActionButton>(R.id.remove_product_button).setOnClickListener {
+        findViewById<FloatingActionButton>(remove_product_button).setOnClickListener {
             viewModel.deleteAll()
         }
 
