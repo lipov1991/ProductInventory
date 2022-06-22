@@ -7,6 +7,5 @@ import pl.lanku.inventory.data.entity.Product
 
 @Database(entities = [Product::class], version = 1, exportSchema = false)
 abstract class ProductDb : RoomDatabase() {
-
     abstract val productDao: ProductDao
 }

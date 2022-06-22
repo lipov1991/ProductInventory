@@ -11,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.data.entity.Product
-import pl.lanku.inventory.untils.CameraStart
+import pl.lanku.inventory.untils.CameraStart.startCamera
 
 
 open class ProductsActivity : AppCompatActivity() {
@@ -21,9 +21,9 @@ open class ProductsActivity : AppCompatActivity() {
     private var name: String = ""
     private var description: String = ""
     private var category: String = ""
-    private val nameET: EditText = findViewById<EditText>(R.id.name)
-    private val descriptionET: EditText = findViewById<EditText>(R.id.description)
-    private val categoryET: EditText = findViewById<EditText>(R.id.description)
+    private val nameET: EditText by lazy { this.findViewById(R.id.name) }
+    private val descriptionET: EditText by lazy { this.findViewById(R.id.description) }
+    private val categoryET: EditText by lazy { this.findViewById(R.id.description) }
 
     private val formFiledValueChangeListener = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
@@ -81,7 +81,7 @@ open class ProductsActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            CameraStart.startCamera(savedInstanceState);
+            startCamera()
         }
 
         findViewById<FloatingActionButton>(R.id.save_product_button).setOnClickListener {
@@ -100,6 +100,7 @@ open class ProductsActivity : AppCompatActivity() {
         descriptionET.addTextChangedListener(
             formFiledValueChangeListener
         )
+
         categoryET.addTextChangedListener(formFiledValueChangeListener)
     }
 
