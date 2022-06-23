@@ -11,6 +11,7 @@ import pl.lanku.inventory.data.entity.Product
 class ProductsViewModel(private val productsRepository: ProductRepository) : ViewModel() {
 
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()
+    val getRowBarcode: LiveData<List<Product>> = productsRepository.selectOneProduct.asLiveData()
 
     fun save(product: Product) = viewModelScope.launch {
         productsRepository.save(product)

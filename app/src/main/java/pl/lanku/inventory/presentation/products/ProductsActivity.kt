@@ -82,7 +82,18 @@ open class ProductsActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.qrScanner).setOnClickListener { startCamera() }
+        fun findCode(barcodeContent: String) {
+            viewModel.getRowBarcode.observe(::getLifecycle) { _ ->
+                nameET.text = ""
+                descriptionET.text = ""
+                categoryET.text = ""
+            }
+        }
+
+        findViewById<Button>(R.id.qrScanner).setOnClickListener {
+            startCamera()
+            findCode(barcodeContent)
+        }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
             viewModel.save(Product(barcodeContent, name, description, category))

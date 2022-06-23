@@ -18,6 +18,7 @@ open class QrCommon : ProductsActivity() {
                 QrUtils.setFormFieldsEnabled(true)
                 QrUtils.barcodeContent = result.contents
                 result.contents
+
             }
         }
     fun qrCommonBarcodeLauncher(): ActivityResultLauncher<ScanOptions> {

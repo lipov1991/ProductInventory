@@ -8,6 +8,7 @@ import pl.lanku.inventory.data.entity.Product
 class ProductRepository(private val productDao: ProductDao) {
 
     val allProducts: Flow<List<Product>> = productDao.getAll()
+    val selectOneProduct: Flow<List<Product>> = productDao.select(barcode)
 
     @WorkerThread
     suspend fun save(product: Product) {
@@ -18,4 +19,10 @@ class ProductRepository(private val productDao: ProductDao) {
     suspend fun deleteAll() {
         productDao.deleteAll()
     }
+
+    @WorkerThread
+    suspend fun select(barcode: String){
+        productDao.select(barcode)
+    }
+
 }

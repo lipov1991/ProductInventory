@@ -7,7 +7,6 @@ import pl.lanku.inventory.common.QrCommon
 object QrUtils : QrCommon() {
 
     private const val MAIN_CAMERA_ID = 0
-
     fun startCamera() {
         val options = ScanOptions().apply {
             this.setPrompt(getString(R.string.qr_scanner_prompt))
@@ -15,6 +14,7 @@ object QrUtils : QrCommon() {
             this.setBeepEnabled(false)
             this.setBarcodeImageEnabled(true)
         }
-        return qrCommonBarcodeLauncher().launch(options)
+        qrCommonBarcodeLauncher().launch(options)
     }
+    
 }

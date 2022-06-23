@@ -18,4 +18,7 @@ interface ProductDao {
 
     @Query("DELETE FROM product;")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM product WHERE ean LIKE :barcode")
+    suspend fun select(barcode: String) :Flow<List<Product>>
 }
