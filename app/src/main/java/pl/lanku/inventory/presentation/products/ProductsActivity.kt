@@ -13,7 +13,7 @@ import pl.lanku.inventory.R
 import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.data.entity.Product
-import pl.lanku.inventory.untils.CameraStart.startCamera
+import pl.lanku.inventory.common.untils.QrUtils.startCamera
 
 
 open class ProductsActivity : AppCompatActivity() {
@@ -82,9 +82,7 @@ open class ProductsActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            startCamera()
-        }
+        findViewById<Button>(R.id.qrScanner).setOnClickListener { startCamera() }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
             viewModel.save(Product(barcodeContent, name, description, category))
