@@ -1,4 +1,4 @@
-package pl.lanku.inventory.Common.Utils
+package pl.lanku.inventory.common.utils
 
 object QrUtils {
 

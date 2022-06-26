@@ -37,7 +37,26 @@ class ProductsActivity : AppCompatActivity() {
             } else {
                 setFormFieldsEnabled(true)
                 barcodeContent = result.contents
+                barcodeCheck(barcodeContent)
+            }
+        }
 
+    private fun barcodeCheck(barcodeContent: String) =
+        viewModel.selectedItem.observe(::getLifecycle) { products ->
+            findViewById<EditText>(R.id.name)?.let {
+                products.forEachIndexed { _, product ->
+                    findViewById<EditText>(R.id.name).text.let { product.name }
+                }
+            }
+            findViewById<EditText>(R.id.description)?.let {
+                products.forEachIndexed { _, product ->
+                    findViewById<EditText>(R.id.description).text.let { product.description }
+                }
+            }
+            findViewById<EditText>(R.id.category)?.let {
+                products.forEachIndexed { _, product ->
+                    findViewById<EditText>(R.id.category).text.let { product.category }
+                }
             }
         }
 
@@ -73,7 +92,7 @@ class ProductsActivity : AppCompatActivity() {
         val descriptionET = findViewById<EditText>(R.id.description)
         val categoryET = findViewById<EditText>(R.id.category)
         viewModel.allProducts.observe(::getLifecycle) { products ->
-            findViewById<TextView>(R.id.products_text_view)?.let {
+            findViewById<TextView>(R.id.products_text_view)?.let { it ->
                 it.text = ""
                 products.forEachIndexed { index, product ->
                     if (index == 0) {
@@ -96,50 +115,30 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
 
-            fun barcodeCheck(launch: Unit) {
-                viewModel.selectedItem.observe(::getLifecycle) { products ->
-                    nameET?.let {
-                        products.forEachIndexed { _, product ->
-                            nameET.text.let { product.name }
-                        }
-                    }
-                    descriptionET?.let {
-                        products.forEachIndexed { _, product ->
-                            descriptionET.text.let { product.description }
-                        }
-                    }
-                    categoryET?.let {
-                        products.forEachIndexed { _, product ->
-                            categoryET.text.let { product.category }
-                        }
-                    }
-                }
+        findViewById<Button>(R.id.qrScanner).setOnClickListener {
+            val options = ScanOptions().apply {
+                setPrompt(getString(R.string.qr_scanner_prompt))
+                setCameraId(MAIN_CAMERA_ID)
+                setBeepEnabled(false)
+                setBarcodeImageEnabled(true)
             }
-
-            findViewById<Button>(R.id.qrScanner).setOnClickListener {
-                val options = ScanOptions().apply {
-                    setPrompt(getString(R.string.qr_scanner_prompt))
-                    setCameraId(MAIN_CAMERA_ID)
-                    setBeepEnabled(false)
-                    setBarcodeImageEnabled(true)
-                }
-                barcodeCheck(barcodeLauncher.launch(options))
-            }
-
-            findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
-                viewModel.save(Product(barcodeContent, nameDC, descriptionDC, categoryDC))
-                nameET.text.clear()
-                descriptionET.text.clear()
-                categoryET.text.clear()
-                setFormFieldsEnabled(false)
-            }
-
-            findViewById<FloatingActionButton>(remove_product_button).setOnClickListener {
-                viewModel.deleteAll()
-            }
-
-            nameET?.addTextChangedListener(formFiledValueChangeListener)
-            descriptionET?.addTextChangedListener(formFiledValueChangeListener)
-            categoryET?.addTextChangedListener(formFiledValueChangeListener)
+            barcodeLauncher.launch(options)
         }
+
+        findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
+            viewModel.save(Product(barcodeContent, nameDC, descriptionDC, categoryDC))
+            nameET.text.clear()
+            descriptionET.text.clear()
+            categoryET.text.clear()
+            setFormFieldsEnabled(false)
+        }
+
+        findViewById<FloatingActionButton>(remove_product_button).setOnClickListener {
+            viewModel.deleteAll()
+        }
+
+        nameET?.addTextChangedListener(formFiledValueChangeListener)
+        descriptionET?.addTextChangedListener(formFiledValueChangeListener)
+        categoryET?.addTextChangedListener(formFiledValueChangeListener)
     }
+}
