@@ -11,6 +11,7 @@ import pl.lanku.inventory.data.entity.Product
 class ProductsViewModel(private val productsRepository: ProductRepository) : ViewModel() {
 
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()
+    val selectedItem: LiveData<List<Product>> =  productsRepository.selectedItem.asLiveData()
 
     fun save(product: Product) = viewModelScope.launch {
         productsRepository.save(product)
@@ -19,4 +20,5 @@ class ProductsViewModel(private val productsRepository: ProductRepository) : Vie
     fun deleteAll() = viewModelScope.launch {
         productsRepository.deleteAll()
     }
+
 }

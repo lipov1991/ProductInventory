@@ -4,12 +4,15 @@ import android.app.Application
 import androidx.room.Room
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import pl.lanku.inventory.data.ProductDb
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.dao.ProductDao
 import pl.lanku.inventory.presentation.products.ProductsViewModel
 
+private val Scope.barcodeContent: String
+    get() = Unit.toString()
 private const val DB_NAME = "products"
 
 val repositoryModule = module {
@@ -23,7 +26,7 @@ val repositoryModule = module {
 
     single { provideDb(androidApplication()) }
 
-    single { ProductRepository(productDao = provideDao(productDb = get())) }
+    single { ProductRepository(productDao = provideDao(productDb = get()), barcodeContent) }
 }
 
 val viewModelModule = module {

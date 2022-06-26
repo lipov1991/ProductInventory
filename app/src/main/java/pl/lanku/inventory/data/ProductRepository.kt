@@ -5,9 +5,11 @@ import kotlinx.coroutines.flow.Flow
 import pl.lanku.inventory.data.dao.ProductDao
 import pl.lanku.inventory.data.entity.Product
 
-class ProductRepository(private val productDao: ProductDao) {
+class ProductRepository(private val productDao: ProductDao, barcodeContent: String) {
 
     val allProducts: Flow<List<Product>> = productDao.getAll()
+    val selectedItem: Flow<List<Product>> = productDao.bbCodeItem(barcodeContent = barcodeContent)
+
 
     @WorkerThread
     suspend fun save(product: Product) {
@@ -18,4 +20,5 @@ class ProductRepository(private val productDao: ProductDao) {
     suspend fun deleteAll() {
         productDao.deleteAll()
     }
+
 }
