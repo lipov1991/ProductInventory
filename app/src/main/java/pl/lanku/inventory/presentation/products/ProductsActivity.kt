@@ -37,11 +37,11 @@ class ProductsActivity : AppCompatActivity() {
             } else {
                 setFormFieldsEnabled(true)
                 barcodeContent = result.contents
-                barcodeCheck(barcodeContent)
+                barcodeCheck()
             }
         }
 
-    private fun barcodeCheck(barcodeContent: String) =
+    private fun barcodeCheck (){
         viewModel.selectedItem.observe(::getLifecycle) { products ->
             findViewById<EditText>(R.id.name)?.let {
                 products.forEachIndexed { _, product ->
@@ -59,6 +59,7 @@ class ProductsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
     private val formFiledValueChangeListener = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
