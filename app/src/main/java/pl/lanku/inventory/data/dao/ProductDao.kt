@@ -21,7 +21,7 @@ interface ProductDao {
 
     @Query(
         "SELECT * FROM product "+
-        "WHERE ean LIKE :barcodeContent")
-    fun bbCodeItem(barcodeContent: String):Flow<List<Product>>
+        "WHERE ean LIKE 5059334785836")
+    fun bbCodeItem():Flow<List<Product>>
 
 }
