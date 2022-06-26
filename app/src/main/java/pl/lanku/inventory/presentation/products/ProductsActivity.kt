@@ -6,113 +6,140 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.data.entity.Product
-import pl.lanku.inventory.common.untils.QrUtils.startCamera
 
+class ProductsActivity : AppCompatActivity() {
 
-open class ProductsActivity : AppCompatActivity() {
+    companion object {
+        private const val MAIN_CAMERA_ID = 0
+    }
 
     private val viewModel: ProductsViewModel by viewModel()
-    var barcodeContent: String = ""
-    private var name: String = ""
-    private var description: String = ""
-    private var category: String = ""
-    private val nameET: EditText by lazy { this.findViewById(R.id.name) }
-    private val descriptionET: EditText by lazy { this.findViewById(R.id.description) }
-    private val categoryET: EditText by lazy { this.findViewById(R.id.description) }
+    private var barcodeContent: String = ""
+    private var nameDC: String = ""
+    private var descriptionDC: String = ""
+    private var categoryDC: String = ""
+    private val barcodeLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+            if (result.contents.isNullOrBlank()) {
+                setFormFieldsEnabled(false)
+                Toast.makeText(this@ProductsActivity, "Skanowanie anulowane", Toast.LENGTH_LONG).show()
+            } else {
+                setFormFieldsEnabled(true)
+                barcodeContent = result.contents
+
+            }
+        }
 
     private val formFiledValueChangeListener = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-
         override fun afterTextChanged(editable: Editable) {
             validateForm()
         }
     }
 
     private fun validateForm() {
-        name = nameET.text.toString()
-        description = descriptionET.text.toString()
-        category = categoryET.text.toString()
+        nameDC = findViewById<EditText>(R.id.name).text.toString()
+        descriptionDC = findViewById<EditText>(R.id.description).text.toString()
+        categoryDC = findViewById<EditText>(R.id.category).text.toString()
         findViewById<FloatingActionButton>(save_product_button)?.isEnabled =
-            barcodeContent.isNotBlank() && name.isNotBlank() && description.isNotBlank() && category.isNotBlank()
+            barcodeContent.isNotBlank() && nameDC.isNotBlank() && descriptionDC.isNotBlank() && categoryDC.isNotBlank()
+
     }
 
-    fun setFormFieldsEnabled(
+    private fun setFormFieldsEnabled(
         enable: Boolean
     ) {
-        nameET.isEnabled = enable
-        descriptionET.isEnabled = enable
-        categoryET.isEnabled = enable
+        findViewById<EditText>(R.id.name).isEnabled = enable
+        findViewById<EditText>(R.id.description).isEnabled = enable
+        findViewById<EditText>(R.id.category).isEnabled = enable
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
+        val nameET = findViewById<EditText>(R.id.name)
+        val descriptionET = findViewById<EditText>(R.id.description)
+        val categoryET = findViewById<EditText>(R.id.category)
         viewModel.allProducts.observe(::getLifecycle) { products ->
             findViewById<TextView>(R.id.products_text_view)?.let {
                 it.text = ""
                 products.forEachIndexed { index, product ->
                     if (index == 0) {
                         it.text = String.format(
-                            "%s - %s - %s - %s\n",
-                            product.ean,
+                            "• %s - %s - %s\n",
                             product.name,
                             product.description,
                             product.category
                         )
                     } else {
                         it.text = String.format(
-                            "%s\n%s - %s - %s - %s",
+                            "%s\n• %s - %s - %s",
                             it.text,
-                            product.ean,
                             product.name,
-                            product.description,
-                            product.category
+                            product.category,
+                            product.description
                         )
                     }
                 }
             }
         }
 
-        fun findCode(barcodeContent: String) {
-            viewModel.getRowBarcode.observe(::getLifecycle) { _ ->
-                nameET.text = ""
-                descriptionET.text = ""
-                categoryET.text = ""
+            fun barcodeCheck(launch: Unit) {
+                viewModel.selectedItem.observe(::getLifecycle) { products ->
+                    nameET?.let {
+                        products.forEachIndexed { _, product ->
+                            nameET.text.let { product.name }
+                        }
+                    }
+                    descriptionET?.let {
+                        products.forEachIndexed { _, product ->
+                            descriptionET.text.let { product.description }
+                        }
+                    }
+                    categoryET?.let {
+                        products.forEachIndexed { _, product ->
+                            categoryET.text.let { product.category }
+                        }
+                    }
+                }
             }
+
+            findViewById<Button>(R.id.qrScanner).setOnClickListener {
+                val options = ScanOptions().apply {
+                    setPrompt(getString(R.string.qr_scanner_prompt))
+                    setCameraId(MAIN_CAMERA_ID)
+                    setBeepEnabled(false)
+                    setBarcodeImageEnabled(true)
+                }
+                barcodeCheck(barcodeLauncher.launch(options))
+            }
+
+            findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
+                viewModel.save(Product(barcodeContent, nameDC, descriptionDC, categoryDC))
+                nameET.text.clear()
+                descriptionET.text.clear()
+                categoryET.text.clear()
+                setFormFieldsEnabled(false)
+            }
+
+            findViewById<FloatingActionButton>(remove_product_button).setOnClickListener {
+                viewModel.deleteAll()
+            }
+
+            nameET?.addTextChangedListener(formFiledValueChangeListener)
+            descriptionET?.addTextChangedListener(formFiledValueChangeListener)
+            categoryET?.addTextChangedListener(formFiledValueChangeListener)
         }
-
-        findViewById<Button>(R.id.qrScanner).setOnClickListener {
-            startCamera()
-            findCode(barcodeContent)
-        }
-
-        findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
-            viewModel.save(Product(barcodeContent, name, description, category))
-            nameET.text.clear()
-            descriptionET.text.clear()
-            categoryET.text.clear()
-            setFormFieldsEnabled(false)
-        }
-
-        findViewById<FloatingActionButton>(remove_product_button).setOnClickListener {
-            viewModel.deleteAll()
-        }
-
-        nameET.addTextChangedListener(formFiledValueChangeListener)
-        descriptionET.addTextChangedListener(
-            formFiledValueChangeListener
-        )
-
-        categoryET.addTextChangedListener(formFiledValueChangeListener)
     }
-
-}
