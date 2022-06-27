@@ -15,7 +15,8 @@ import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.common.CameraCommonUtils
 import pl.lanku.inventory.data.entity.Product
 
-open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) : AppCompatActivity() {
+open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils?) :
+    AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
     protected var barcodeContent: String = ""
@@ -23,19 +24,19 @@ open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) : 
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
 
-    fun barcodeCheck(){
-        val itemFromBbContent = viewModel.selectOneItem(barcodeContent).toString()
-        findViewById<EditText>(R.id.name).setText(itemFromBbContent)
-        findViewById<EditText>(R.id.description).setText(itemFromBbContent)
-        findViewById<EditText>(R.id.category).setText(itemFromBbContent)
-    }
-
     private val formFiledValueChangeListener = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
         override fun afterTextChanged(editable: Editable) {
             validateForm()
         }
+    }
+
+    fun barcodeCheck(){
+        val itemFromBbContent = viewModel.selectOneItem(barcodeContent).toString()
+        findViewById<EditText>(R.id.name).setText(itemFromBbContent)
+        findViewById<EditText>(R.id.description).setText(itemFromBbContent)
+        findViewById<EditText>(R.id.category).setText(itemFromBbContent)
     }
 
     private fun validateForm() {
@@ -84,7 +85,7 @@ open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) : 
         }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            cameraCommonUtils.buttonStartCamera()
+            cameraCommonUtils?.buttonStartCamera()
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {

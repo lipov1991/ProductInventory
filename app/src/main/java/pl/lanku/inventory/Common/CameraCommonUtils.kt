@@ -8,7 +8,7 @@ import pl.lanku.inventory.presentation.products.ProductsActivity
 open class CameraCommonUtils(private val qrUtils:QrUtils, productsActivity: ProductsActivity,
                              cameraCommonUtils: CameraCommonUtils?
 ):
-    QrUtils(productsActivity, cameraCommonUtils!!) {
+    QrUtils(productsActivity, cameraCommonUtils) {
     companion object {
         private const val MAIN_CAMERA_ID = 0
     }
