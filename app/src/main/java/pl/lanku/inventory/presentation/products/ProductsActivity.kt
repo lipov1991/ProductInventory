@@ -16,7 +16,7 @@ import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.common.CameraCommonUtils
 import pl.lanku.inventory.data.entity.Product
 
-open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) :
+class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) :
     AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()

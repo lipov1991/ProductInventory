@@ -5,7 +5,7 @@ import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import pl.lanku.inventory.presentation.products.ProductsActivity
 
-open class QrUtils(private val productsActivity:ProductsActivity){
+class QrUtils(private val productsActivity:ProductsActivity){
     private val barcodeLauncher =
         productsActivity.registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
