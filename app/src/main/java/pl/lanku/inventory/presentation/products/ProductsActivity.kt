@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -15,11 +16,11 @@ import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.common.CameraCommonUtils
 import pl.lanku.inventory.data.entity.Product
 
-open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils?) :
+open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) :
     AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
-    protected var barcodeContent: String = ""
+    var barcodeContent: String = ""
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
@@ -37,6 +38,10 @@ open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils?) :
         findViewById<EditText>(R.id.name).setText(itemFromBbContent)
         findViewById<EditText>(R.id.description).setText(itemFromBbContent)
         findViewById<EditText>(R.id.category).setText(itemFromBbContent)
+    }
+
+    fun cancelScanCode(){
+        Toast.makeText(this@ProductsActivity, "Skanowanie anulowane", Toast.LENGTH_LONG).show()
     }
 
     private fun validateForm() {
@@ -85,7 +90,7 @@ open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils?) :
         }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            cameraCommonUtils?.buttonStartCamera()
+            cameraCommonUtils.buttonStartCamera()
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
