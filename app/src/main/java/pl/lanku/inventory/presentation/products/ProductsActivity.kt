@@ -9,18 +9,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.journeyapps.barcodescanner.ScanOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.common.CameraCommonUtils
+import pl.lanku.inventory.common.utils.QrUtils
 import pl.lanku.inventory.data.entity.Product
 
-class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) :
+class ProductsActivity :
     AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
-    var barcodeContent: String = ""
+    private var barcodeContent: String = ""
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
@@ -53,7 +55,7 @@ class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) :
 
     }
 
-    fun setFormFieldsEnabled(enable: Boolean) {
+    private fun setFormFieldsEnabled(enable: Boolean) {
         findViewById<EditText>(R.id.name).isEnabled = enable
         findViewById<EditText>(R.id.description).isEnabled = enable
         findViewById<EditText>(R.id.category).isEnabled = enable
@@ -90,7 +92,9 @@ class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) :
         }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            cameraCommonUtils.buttonStartCamera()
+            val options : ScanOptions = CameraCommonUtils.buttonStartCamera()
+            barcodeContent = QrUtils.barcodeLauncher.launch(options)
+
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {

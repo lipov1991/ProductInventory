@@ -6,19 +6,17 @@ import com.journeyapps.barcodescanner.ScanOptions
 import pl.lanku.inventory.presentation.products.ProductsActivity
 
 class QrUtils(private val productsActivity:ProductsActivity){
-    private val barcodeLauncher =
-        productsActivity.registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
-            if (result.contents.isNullOrBlank()) {
-                productsActivity.setFormFieldsEnabled(false)
-                productsActivity.cancelScanCode()
-            } else {
-                productsActivity.setFormFieldsEnabled(true)
-                productsActivity.barcodeContent = result.contents
-                productsActivity.barcodeCheck()
+    companion object {
+        val barcodeLauncher =
+            productsActivity.registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+                if (result.contents.isNullOrBlank()) {
+                    productsActivity.setFormFieldsEnabled(false)
+                    productsActivity.cancelScanCode()
+                } else {
+                    productsActivity.setFormFieldsEnabled(true)
+                    productsActivity.barcodeContent = result.contents
+                    productsActivity.barcodeCheck()
+                }
             }
-        }
-
-    fun scanBarcode(options: ScanOptions){
-        barcodeLauncher.launch(options)
     }
 }
