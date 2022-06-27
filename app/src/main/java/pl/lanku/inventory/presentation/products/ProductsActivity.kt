@@ -6,42 +6,24 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
+import pl.lanku.inventory.common.CameraCommonUtils
 import pl.lanku.inventory.data.entity.Product
 
-class ProductsActivity : AppCompatActivity() {
-
-    companion object {
-        private const val MAIN_CAMERA_ID = 0
-    }
+open class ProductsActivity(private val cameraCommonUtils: CameraCommonUtils) : AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
-    private var barcodeContent: String = ""
+    protected var barcodeContent: String = ""
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
-    private val barcodeLauncher =
-        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
-            if (result.contents.isNullOrBlank()) {
-                setFormFieldsEnabled(false)
-                Toast.makeText(this@ProductsActivity, "Skanowanie anulowane", Toast.LENGTH_LONG).show()
-            } else {
-                setFormFieldsEnabled(true)
-                barcodeContent = result.contents
-                barcodeCheck()
-            }
-        }
 
-    private fun barcodeCheck (){
+    fun barcodeCheck(){
         val itemFromBbContent = viewModel.selectOneItem(barcodeContent).toString()
         findViewById<EditText>(R.id.name).setText(itemFromBbContent)
         findViewById<EditText>(R.id.description).setText(itemFromBbContent)
@@ -65,9 +47,7 @@ class ProductsActivity : AppCompatActivity() {
 
     }
 
-    private fun setFormFieldsEnabled(
-        enable: Boolean
-    ) {
+    fun setFormFieldsEnabled(enable: Boolean) {
         findViewById<EditText>(R.id.name).isEnabled = enable
         findViewById<EditText>(R.id.description).isEnabled = enable
         findViewById<EditText>(R.id.category).isEnabled = enable
@@ -103,14 +83,8 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.qrScanner).setOnClickListener {
-            val options = ScanOptions().apply {
-                setPrompt(getString(R.string.qr_scanner_prompt))
-                setCameraId(MAIN_CAMERA_ID)
-                setBeepEnabled(false)
-                setBarcodeImageEnabled(true)
-            }
-            barcodeLauncher.launch(options)
+        findViewById<Button>(R.id.qrScanner).setOnClickListener{
+            cameraCommonUtils.buttonStartCamera()
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
