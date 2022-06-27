@@ -42,23 +42,10 @@ class ProductsActivity : AppCompatActivity() {
         }
 
     private fun barcodeCheck (){
-        viewModel.selectedItem.observe(::getLifecycle) { products ->
-            findViewById<EditText>(R.id.name)?.let {
-                products.forEachIndexed { _, product ->
-                    findViewById<EditText>(R.id.name).text.let { product.name }
-                }
-            }
-            findViewById<EditText>(R.id.description)?.let {
-                products.forEachIndexed { _, product ->
-                    findViewById<EditText>(R.id.description).text.let { product.description }
-                }
-            }
-            findViewById<EditText>(R.id.category)?.let {
-                products.forEachIndexed { _, product ->
-                    findViewById<EditText>(R.id.category).text.let { product.category }
-                }
-            }
-        }
+        val itemFromBbContent = viewModel.selectOneItem(barcodeContent).toString()
+        findViewById<EditText>(R.id.name).setText(itemFromBbContent)
+        findViewById<EditText>(R.id.description).setText(itemFromBbContent)
+        findViewById<EditText>(R.id.category).setText(itemFromBbContent)
     }
 
     private val formFiledValueChangeListener = object : TextWatcher {
