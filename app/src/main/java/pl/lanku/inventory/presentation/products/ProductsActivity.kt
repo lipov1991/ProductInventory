@@ -9,23 +9,33 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.journeyapps.barcodescanner.ScanOptions
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
-import pl.lanku.inventory.common.CameraCommonUtils
-import pl.lanku.inventory.common.utils.QrUtils
 import pl.lanku.inventory.data.entity.Product
 
-class ProductsActivity :
+open class ProductsActivity :
     AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
-    private var barcodeContent: String = ""
+    var barcodeContent: String = ""
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
+    private val barcodeLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+            if (result.contents.isNullOrBlank()) {
+                setFormFieldsEnabled(false)
+                cancelScanCode()
+            } else {
+                barcodeContent = result.contents
+                barcodeCheck()
+                setFormFieldsEnabled(true)
+            }
+        }
 
     private val formFiledValueChangeListener = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
@@ -35,14 +45,14 @@ class ProductsActivity :
         }
     }
 
-    fun barcodeCheck(){
+    private fun barcodeCheck(){
         val itemFromBbContent = viewModel.selectOneItem(barcodeContent).toString()
         findViewById<EditText>(R.id.name).setText(itemFromBbContent)
         findViewById<EditText>(R.id.description).setText(itemFromBbContent)
         findViewById<EditText>(R.id.category).setText(itemFromBbContent)
     }
 
-    fun cancelScanCode(){
+    private fun cancelScanCode(){
         Toast.makeText(this@ProductsActivity, "Skanowanie anulowane", Toast.LENGTH_LONG).show()
     }
 
@@ -73,14 +83,14 @@ class ProductsActivity :
                 products.forEachIndexed { index, product ->
                     if (index == 0) {
                         it.text = String.format(
-                            "• %s - %s - %s\n",
+                            "%s - %s - %s\n",
                             product.name,
                             product.description,
                             product.category
                         )
                     } else {
                         it.text = String.format(
-                            "%s\n• %s - %s - %s",
+                            "%s\n%s - %s - %s",
                             it.text,
                             product.name,
                             product.category,
@@ -92,9 +102,7 @@ class ProductsActivity :
         }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            val options : ScanOptions = CameraCommonUtils.buttonStartCamera()
-            barcodeContent = QrUtils.barcodeLauncher.launch(options)
-
+            viewModel.scanBarcode(barcodeLauncher,getString(R.string.qr_scanner_prompt))
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
