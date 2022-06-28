@@ -13,7 +13,7 @@
         android:layout_height="460dp"
         android:layout_marginTop="160dp">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -30,7 +30,7 @@
                     android:textColor="#757575"
                     tools:text="@string/layout_of_product" />
             </LinearLayout>
-        </androidx.recyclerview.widget.RecyclerView>
+        </ScrollView>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

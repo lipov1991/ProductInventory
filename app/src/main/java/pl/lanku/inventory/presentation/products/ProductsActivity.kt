@@ -21,7 +21,7 @@ open class ProductsActivity :
     AppCompatActivity() {
 
     private val viewModel: ProductsViewModel by viewModel()
-    var barcodeContent: String = ""
+    private var barcodeContent: String = ""
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
@@ -32,7 +32,7 @@ open class ProductsActivity :
                 cancelScanCode()
             } else {
                 barcodeContent = result.contents
-                barcodeCheck()
+                getRowCount()
                 setFormFieldsEnabled(true)
             }
         }
@@ -45,11 +45,29 @@ open class ProductsActivity :
         }
     }
 
+    private fun getRowCount(){
+        viewModel.getRowCount(barcodeContent).observe(::getLifecycle){
+            if(it.toInt()>0){
+                barcodeCheck()
+            }
+            else{
+                cleanET()
+            }
+        }
+    }
+
     private fun barcodeCheck(){
-        val itemFromBbContent = viewModel.selectOneItem(barcodeContent).toString()
-        findViewById<EditText>(R.id.name).setText(itemFromBbContent)
-        findViewById<EditText>(R.id.description).setText(itemFromBbContent)
-        findViewById<EditText>(R.id.category).setText(itemFromBbContent)
+        viewModel.selectOneItem(barcodeContent).observe(::getLifecycle) { product ->
+            findViewById<EditText>(R.id.name).setText(product.name)
+            findViewById<EditText>(R.id.description).setText(product.description)
+            findViewById<EditText>(R.id.category).setText(product.category)
+        }
+    }
+
+    private fun cleanET() {
+        findViewById<EditText>(R.id.name).text = null
+        findViewById<EditText>(R.id.description).text = null
+        findViewById<EditText>(R.id.category).text = null
     }
 
     private fun cancelScanCode(){

@@ -20,7 +20,9 @@ interface ProductDao {
     @Query("DELETE FROM product;")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM product WHERE ean LIKE :barcodeContent")
-    fun selectOneItem(barcodeContent: String):LiveData<Product>
+    @Query("SELECT * FROM product WHERE ean LIKE :barcode")
+    fun selectOneItem(barcode: String):LiveData<Product>
 
+    @Query("SELECT COUNT(*) FROM product WHERE ean LIKE :barcode")
+    fun getRowCount(barcode:String):LiveData<Integer>
 }
