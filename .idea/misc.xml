@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/layout/activity_products.xml" value="0.3625" />
+        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.269" />
+        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/drawable/ic_item.xml" value="0.269" />
+        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/drawable/ic_item_icon.xml" value="0.269" />
+        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/drawable/ic_save.xml" value="0.269" />
+        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/layout/activity_products.xml" value="0.33" />
+        <entry key="..\:/Users/kkawa/Desktop/ProductInventory/app/src/main/res/layout/recycler_item.xml" value="0.1" />
       </map>
     </option>
   </component>

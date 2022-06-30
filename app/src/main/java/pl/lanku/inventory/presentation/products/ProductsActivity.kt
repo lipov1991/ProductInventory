@@ -5,7 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,9 +16,8 @@ import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.data.entity.Product
 
-open class ProductsActivity :
-    AppCompatActivity() {
 
+open class ProductsActivity:AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
     private var barcodeContent: String = ""
     private var nameDC: String = ""
@@ -80,7 +78,6 @@ open class ProductsActivity :
         categoryDC = findViewById<EditText>(R.id.category).text.toString()
         findViewById<FloatingActionButton>(save_product_button)?.isEnabled =
             barcodeContent.isNotBlank() && nameDC.isNotBlank() && descriptionDC.isNotBlank() && categoryDC.isNotBlank()
-
     }
 
     private fun setFormFieldsEnabled(enable: Boolean) {
@@ -95,32 +92,19 @@ open class ProductsActivity :
         val nameET = findViewById<EditText>(R.id.name)
         val descriptionET = findViewById<EditText>(R.id.description)
         val categoryET = findViewById<EditText>(R.id.category)
-        viewModel.allProducts.observe(::getLifecycle) { products ->
-            findViewById<TextView>(R.id.products_text_view)?.let { it ->
-                it.text = ""
-                products.forEachIndexed { index, product ->
-                    if (index == 0) {
-                        it.text = String.format(
-                            "%s - %s - %s\n",
-                            product.name,
-                            product.description,
-                            product.category
-                        )
-                    } else {
-                        it.text = String.format(
-                            "%s\n%s - %s - %s",
-                            it.text,
-                            product.name,
-                            product.category,
-                            product.description
-                        )
-                    }
-                }
-            }
-        }
 
-        findViewById<Button>(R.id.qrScanner).setOnClickListener{
-            viewModel.scanBarcode(barcodeLauncher,getString(R.string.qr_scanner_prompt))
+//        viewModel.allProducts.observe(::getLifecycle) { products ->
+//            products.forEachIndexed { index, product ->
+//                viewModel.bind(product)
+//                viewModel.productAdapterCount(index)
+//            }
+//        }
+
+        findViewById<Button>(R.id.qrScanner).setOnClickListener {
+            viewModel.scanBarcode(
+                barcodeLauncher,
+                getString(R.string.qr_scanner_prompt)
+            )
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {

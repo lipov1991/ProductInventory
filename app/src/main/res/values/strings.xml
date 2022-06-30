@@ -14,5 +14,5 @@
     <string name="name_of_product">Nazwa produktu</string>
     <string name="description_of_product">Opis produktu</string>
     <string name="category_of_product">Kategoria produktu</string>
-    <string name="layout_of_product">Produkt 1\nProdukt 2</string>
+    <string name="icon_item">ITEM</string>
 </resources>
