@@ -7,6 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -15,6 +18,8 @@ import pl.lanku.inventory.R
 import pl.lanku.inventory.R.id.remove_product_button
 import pl.lanku.inventory.R.id.save_product_button
 import pl.lanku.inventory.data.entity.Product
+import pl.lanku.inventory.databinding.ActivityProductsBinding
+import pl.lanku.inventory.presentation.productadapter.ProductAdapter
 
 
 open class ProductsActivity:AppCompatActivity() {
@@ -23,6 +28,7 @@ open class ProductsActivity:AppCompatActivity() {
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
+    private lateinit var binding: ActivityProductsBinding
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -93,10 +99,20 @@ open class ProductsActivity:AppCompatActivity() {
         val descriptionET = findViewById<EditText>(R.id.description)
         val categoryET = findViewById<EditText>(R.id.category)
 
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_products)
+
+        val productList: LiveData<List<Product>> = viewModel.allProducts
+
+        val recyclerViewProducts=binding.recycler
+        val productAdapter = ProductAdapter(productList)
+        val layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+
+        recyclerViewProducts.adapter = productAdapter
+        recyclerViewProducts.layoutManager = layoutManager
+        recyclerViewProducts.setHasFixedSize(true)
 //        viewModel.allProducts.observe(::getLifecycle) { products ->
-//            products.forEachIndexed { index, product ->
-//                viewModel.bind(product)
-//                viewModel.productAdapterCount(index)
+//            products.forEachIndexed { _, product ->
+//
 //            }
 //        }
 

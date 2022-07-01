@@ -3,31 +3,24 @@ package pl.lanku.inventory.presentation.productadapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pl.lanku.inventory.R
 import pl.lanku.inventory.data.entity.Product
 
-class ProductAdapter(private val onClick: (Product) -> Unit) : ListAdapter<Product,ProductAdapter.ProductViewHolder>(ProductDiffCallback) {
-    private var numbersOfProducts :Int = 0
+class ProductAdapter(private val productList:LiveData<List<Product>>) : ListAdapter<Product,ProductAdapter.ProductViewHolder>(ProductDiffCallback) {
+    private var numbersOfProducts :Int = updateProductCount(productList)
 
-    class ProductViewHolder(itemView:View,val onClick: (Product) -> Unit):RecyclerView.ViewHolder(itemView)
+    class ProductViewHolder(itemView:View,private val productList:LiveData<List<Product>>):RecyclerView.ViewHolder(itemView)
     {
         private val eanIR:TextView = itemView.findViewById(R.id.recycler_ean)
         private val nameIR:TextView = itemView.findViewById(R.id.recycler_name)
         private val descriptionIR:TextView = itemView.findViewById(R.id.recycler_description)
         private val categoryIR:TextView = itemView.findViewById(R.id.recycler_category)
         private var currentProduct: Product? = null
-
-        init {
-            itemView.setOnClickListener{
-                currentProduct?.let {
-                    onClick(it)
-                }
-            }
-        }
 
         fun bind(product: Product){
             currentProduct = product
@@ -38,14 +31,18 @@ class ProductAdapter(private val onClick: (Product) -> Unit) : ListAdapter<Produ
         }
     }
 
-    fun updateProductCount(updatedProductCount: Int) {
-        numbersOfProducts = updatedProductCount
+    private fun updateProductCount(productList:LiveData<List<Product>>): Int {
+        return if(productList.value==null){
+            0
+        } else {
+            productList.value!!.size
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType:Int):ProductViewHolder{
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_item,parent,false)
-        return ProductViewHolder(view,onClick)
+        return ProductViewHolder(view,productList)
     }
 
     override fun onBindViewHolder(holder:ProductViewHolder, position: Int){
