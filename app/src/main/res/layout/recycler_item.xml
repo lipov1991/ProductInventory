@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:padding="10dp"
     android:background="@drawable/ic_border_bottom">
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -13,12 +12,13 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/ic_item_icon"
-            android:orientation="horizontal" >
-        </LinearLayout>
+            android:orientation="horizontal" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="-5dp">
             <TextView
                 android:id="@+id/recycler_ean"
                 android:layout_width="wrap_content"
@@ -31,20 +31,22 @@
                 android:text="@string/name_of_product"
                 android:textSize="20sp"
                 android:textColor="@color/teal_700"/>
+
             <TextView
                 android:id="@+id/recycler_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/description_of_product"
-                android:textSize="15sp"
-                android:textColor="@color/teal_700"/>
+                android:textColor="#00838F"
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/recycler_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_of_product"
-                android:textSize="15sp"
-                android:textColor="@color/teal_700"/>
+                android:textColor="#00838F"
+                android:textSize="15sp" />
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 </layout>

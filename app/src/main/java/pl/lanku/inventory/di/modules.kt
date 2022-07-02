@@ -9,7 +9,6 @@ import pl.lanku.inventory.common.utils.BarcodeScannerUtils
 import pl.lanku.inventory.data.ProductDb
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.dao.ProductDao
-import pl.lanku.inventory.presentation.productadapter.ProductAdapter
 import pl.lanku.inventory.presentation.products.ProductsViewModel
 
 private const val DB_NAME = "products"
@@ -34,8 +33,4 @@ val viewModelModule = module {
 
 val utilsModule = module {
     single { BarcodeScannerUtils() }
-}
-
-val productAdapterModule = module{
-    single { ProductAdapter(onClick = get()) }
 }

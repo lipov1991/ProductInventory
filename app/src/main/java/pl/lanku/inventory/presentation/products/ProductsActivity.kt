@@ -28,7 +28,7 @@ open class ProductsActivity:AppCompatActivity() {
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
-    private lateinit var binding: ActivityProductsBinding
+    lateinit var binding: ActivityProductsBinding
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -110,11 +110,6 @@ open class ProductsActivity:AppCompatActivity() {
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
         recyclerViewProducts.setHasFixedSize(true)
-//        viewModel.allProducts.observe(::getLifecycle) { products ->
-//            products.forEachIndexed { _, product ->
-//
-//            }
-//        }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener {
             viewModel.scanBarcode(

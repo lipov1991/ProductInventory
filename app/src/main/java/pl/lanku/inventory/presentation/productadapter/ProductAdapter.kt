@@ -16,11 +16,11 @@ class ProductAdapter(private val productList:LiveData<List<Product>>) : ListAdap
 
     class ProductViewHolder(itemView:View,private val productList:LiveData<List<Product>>):RecyclerView.ViewHolder(itemView)
     {
-        private val eanIR:TextView = itemView.findViewById(R.id.recycler_ean)
-        private val nameIR:TextView = itemView.findViewById(R.id.recycler_name)
-        private val descriptionIR:TextView = itemView.findViewById(R.id.recycler_description)
-        private val categoryIR:TextView = itemView.findViewById(R.id.recycler_category)
-        private var currentProduct: Product? = null
+        val eanIR:TextView = itemView.findViewById(R.id.recycler_ean)
+        val nameIR:TextView = itemView.findViewById(R.id.recycler_name)
+        val descriptionIR:TextView = itemView.findViewById(R.id.recycler_description)
+        val categoryIR:TextView = itemView.findViewById(R.id.recycler_category)
+        var currentProduct: Product? = null
 
         fun bind(product: Product){
             currentProduct = product
@@ -31,7 +31,7 @@ class ProductAdapter(private val productList:LiveData<List<Product>>) : ListAdap
         }
     }
 
-    private fun updateProductCount(productList:LiveData<List<Product>>): Int {
+    fun updateProductCount(productList:LiveData<List<Product>>): Int {
         return if(productList.value==null){
             0
         } else {
