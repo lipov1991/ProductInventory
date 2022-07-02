@@ -3,12 +3,9 @@ package pl.lanku.inventory.presentation.products
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.journeyapps.barcodescanner.ScanContract
@@ -22,13 +19,13 @@ import pl.lanku.inventory.databinding.ActivityProductsBinding
 import pl.lanku.inventory.presentation.productadapter.ProductAdapter
 
 
-open class ProductsActivity:AppCompatActivity() {
+open class ProductsActivity : AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
     private var barcodeContent: String = ""
     private var nameDC: String = ""
     private var descriptionDC: String = ""
     private var categoryDC: String = ""
-    lateinit var binding: ActivityProductsBinding
+    private lateinit var binding: ActivityProductsBinding
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -42,25 +39,24 @@ open class ProductsActivity:AppCompatActivity() {
         }
 
     private val formFiledValueChangeListener = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun afterTextChanged(editable: Editable) {
             validateForm()
         }
     }
 
-    private fun getRowCount(){
-        viewModel.getRowCount(barcodeContent).observe(::getLifecycle){
-            if(it.toInt()>0){
+    private fun getRowCount() {
+        viewModel.getRowCount(barcodeContent).observe(::getLifecycle) {
+            if (it.toInt() > 0) {
                 barcodeCheck()
-            }
-            else{
+            } else {
                 cleanET()
             }
         }
     }
 
-    private fun barcodeCheck(){
+    private fun barcodeCheck() {
         viewModel.selectOneItem(barcodeContent).observe(::getLifecycle) { product ->
             findViewById<EditText>(R.id.name).setText(product.name)
             findViewById<EditText>(R.id.description).setText(product.description)
@@ -74,7 +70,7 @@ open class ProductsActivity:AppCompatActivity() {
         findViewById<EditText>(R.id.category).text = null
     }
 
-    private fun cancelScanCode(){
+    private fun cancelScanCode() {
         Toast.makeText(this@ProductsActivity, "Skanowanie anulowane", Toast.LENGTH_LONG).show()
     }
 
@@ -94,22 +90,22 @@ open class ProductsActivity:AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_products)
         val nameET = findViewById<EditText>(R.id.name)
         val descriptionET = findViewById<EditText>(R.id.description)
         val categoryET = findViewById<EditText>(R.id.category)
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_products)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_products)
 
-        val productList: LiveData<List<Product>> = viewModel.allProducts
-
-        val recyclerViewProducts=binding.recycler
-        val productAdapter = ProductAdapter(productList)
-        val layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        val recyclerViewProducts = binding.recycler
+        val productAdapter = ProductAdapter(emptyList())
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
         recyclerViewProducts.setHasFixedSize(true)
+        viewModel.allProducts.observe(::getLifecycle) { products ->
+            productAdapter.updateProducts(products)
+        }
 
         findViewById<Button>(R.id.qrScanner).setOnClickListener {
             viewModel.scanBarcode(
@@ -133,5 +129,12 @@ open class ProductsActivity:AppCompatActivity() {
         nameET?.addTextChangedListener(formFiledValueChangeListener)
         descriptionET?.addTextChangedListener(formFiledValueChangeListener)
         categoryET?.addTextChangedListener(formFiledValueChangeListener)
+
+        findViewById<LinearLayout>(R.id.recycler).setOnClickListener{
+            barcodeContent = findViewById<TextView>(R.id.recycler_ean).text.toString()
+            nameET.setText(findViewById<TextView>(R.id.recycler_name).text.toString())
+            descriptionET.setText(findViewById<TextView>(R.id.recycler_description).text.toString())
+            categoryET.setText(findViewById<TextView>(R.id.recycler_category).text.toString())
+        }
     }
 }
