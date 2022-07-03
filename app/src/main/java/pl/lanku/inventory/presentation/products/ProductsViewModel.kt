@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.entity.Product
+import javax.sql.DataSource
 
 class ProductsViewModel(private val productsRepository: ProductRepository, private val barcodeScannerUtils: BarcodeScannerUtils) : ViewModel() {
 

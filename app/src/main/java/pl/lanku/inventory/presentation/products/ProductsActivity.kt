@@ -1,9 +1,14 @@
+@file:Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+
 package pl.lanku.inventory.presentation.products
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,19 +91,34 @@ open class ProductsActivity : AppCompatActivity() {
         findViewById<EditText>(R.id.name).isEnabled = enable
         findViewById<EditText>(R.id.description).isEnabled = enable
         findViewById<EditText>(R.id.category).isEnabled = enable
+        findViewById<FloatingActionButton>(R.id.save_product_button).isEnabled = enable
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val nameET = findViewById<EditText>(R.id.name)
-        val descriptionET = findViewById<EditText>(R.id.description)
-        val categoryET = findViewById<EditText>(R.id.category)
-
+//        val nameET = findViewById<EditText>(R.id.name)
+//        val descriptionET = findViewById<EditText>(R.id.description)          NIE DZIAUA!!!!!!!!
+//        val categoryET = findViewById<EditText>(R.id.category)                JEBANE GÓWNO
         binding = DataBindingUtil.setContentView(this, R.layout.activity_products)
 
         val recyclerViewProducts = binding.recycler
         val productAdapter = ProductAdapter(emptyList())
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                Toast.makeText(this@ProductsActivity,"Wybrano produkt $position",Toast.LENGTH_SHORT).show()
+                layoutManager.findViewByPosition(position).let {
+                    if (it != null) {
+                        barcodeContent = it.findViewById<TextView>(R.id.recycler_ean).text.toString()
+                        findViewById<EditText>(R.id.name).setText(it.findViewById<TextView>(R.id.recycler_name).text.toString())
+                        findViewById<EditText>(R.id.description).setText(it.findViewById<TextView>(R.id.recycler_description).text.toString())
+                        findViewById<EditText>(R.id.category).setText(it.findViewById<TextView>(R.id.recycler_category).text.toString())
+                        setFormFieldsEnabled(true)
+                    }
+                }
+            }
+        })
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -116,9 +136,9 @@ open class ProductsActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
             viewModel.save(Product(barcodeContent, nameDC, descriptionDC, categoryDC))
-            nameET.text.clear()
-            descriptionET.text.clear()
-            categoryET.text.clear()
+            findViewById<EditText>(R.id.name).text.clear()
+            findViewById<EditText>(R.id.description).text.clear()
+            findViewById<EditText>(R.id.category).text.clear()
             setFormFieldsEnabled(false)
         }
 
@@ -126,15 +146,8 @@ open class ProductsActivity : AppCompatActivity() {
             viewModel.deleteAll()
         }
 
-        nameET?.addTextChangedListener(formFiledValueChangeListener)
-        descriptionET?.addTextChangedListener(formFiledValueChangeListener)
-        categoryET?.addTextChangedListener(formFiledValueChangeListener)
-
-        findViewById<LinearLayout>(R.id.recycler).setOnClickListener{
-            barcodeContent = findViewById<TextView>(R.id.recycler_ean).text.toString()
-            nameET.setText(findViewById<TextView>(R.id.recycler_name).text.toString())
-            descriptionET.setText(findViewById<TextView>(R.id.recycler_description).text.toString())
-            categoryET.setText(findViewById<TextView>(R.id.recycler_category).text.toString())
-        }
+        findViewById<EditText>(R.id.name)?.addTextChangedListener(formFiledValueChangeListener)
+        findViewById<EditText>(R.id.description)?.addTextChangedListener(formFiledValueChangeListener)
+        findViewById<EditText>(R.id.category)?.addTextChangedListener(formFiledValueChangeListener)
     }
 }
