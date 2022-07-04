@@ -34,9 +34,12 @@ android {
         jvmTarget = '1.8'
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     buildFeatures {
         viewBinding = true
-        dataBinding true
     }
 
     namespace 'pl.lanku.inventory'
@@ -44,7 +47,7 @@ android {
 
 dependencies {
     implementation 'androidx.databinding:databinding-runtime:7.2.1'
-    def lifecycle_version = "2.4.1"
+    def lifecycle_version = "2.5.0"
     def koin_version = "2.2.2"
     def ev_version = "1.0.4"
     implementation 'androidx.core:core-ktx:1.8.0'
