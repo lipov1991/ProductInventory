@@ -22,47 +22,28 @@ import pl.lanku.inventory.presentation.productadapter.ProductAdapter
 class ProductsActivity : AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
     private lateinit var binding: ActivityProductsBinding
-
-    //Value
-    private var barcodeContent: String = ""
-    private var nameContent: String = ""
-    private var descriptionContent: String = ""
-    private var categoryContent: String = ""
-
-    //ET = EditText
-    private lateinit var nameET:TextView //= findViewById<EditText>(R.id.name)
-    private lateinit var descriptionET: TextView //= findViewById<EditText>(R.id.description)
-    private lateinit var categoryET: TextView //= findViewById<EditText>(R.id.category)
-    private lateinit var saveButton: FloatingActionButton //= findViewById<EditText>(R.id.save_product_button)
-
-    //RI = Recycle Item
-    private lateinit var eanRI: TextView //= findViewById<EditText>(R.id.recycler_ean)
-    private lateinit var nameRI: TextView //= findViewById<EditText>(R.id.recycler_name)
-    private lateinit var descriptionRI:TextView //= findViewById<EditText>(R.id.recycler_description)
-    private lateinit var categoryRI: TextView //= findViewById<EditText>(R.id.recycler_category)
-
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
                 setFormFieldsEnabled(false)
                 cancelScanCode()
             } else {
-                barcodeContent = result.contents
+                viewModel.barcodeContent = result.contents
                 getRowCount()
                 setFormFieldsEnabled(true)
             }
         }
 
     private val formFiledValueChangeListener = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun afterTextChanged(editable: Editable) {
             validateForm()
         }
     }
 
     private fun getRowCount() {
-        viewModel.getRowCount(barcodeContent).observe(::getLifecycle) {
+        viewModel.getRowCount(viewModel.barcodeContent).observe(::getLifecycle) {
             if (it.toInt() > 0) {
                 barcodeCheck()
             } else {
@@ -72,7 +53,7 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun barcodeCheck() {
-        viewModel.selectOneItem(barcodeContent).observe(::getLifecycle) { product ->
+        viewModel.selectOneItem(viewModel.barcodeContent).observe(::getLifecycle) { product ->
 //            nameET.setText(product.name)
             findViewById<EditText>(R.id.name).setText(product.name)
             findViewById<EditText>(R.id.description).setText(product.description)
@@ -91,11 +72,11 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun validateForm() {
-        nameContent = findViewById<EditText>(R.id.name).text.toString()
-        descriptionContent = findViewById<EditText>(R.id.description).text.toString()
-        categoryContent = findViewById<EditText>(R.id.category).text.toString()
+        viewModel.nameContent = findViewById<EditText>(R.id.name).text.toString()
+        viewModel.descriptionContent = findViewById<EditText>(R.id.description).text.toString()
+        viewModel.categoryContent = findViewById<EditText>(R.id.category).text.toString()
         findViewById<FloatingActionButton>(save_product_button)?.isEnabled =
-            barcodeContent.isNotBlank() && nameContent.isNotBlank() && descriptionContent.isNotBlank() && categoryContent.isNotBlank()
+            viewModel.barcodeContent.isNotBlank() && viewModel.nameContent.isNotBlank() && viewModel.descriptionContent.isNotBlank() && viewModel.categoryContent.isNotBlank()
     }
 
     private fun setFormFieldsEnabled(enable: Boolean) {
@@ -115,12 +96,13 @@ class ProductsActivity : AppCompatActivity() {
         val productAdapter = ProductAdapter(emptyList())
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener{
+        productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Toast.makeText(this@ProductsActivity,"Wybrano produkt",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProductsActivity, "Wybrano produkt", Toast.LENGTH_SHORT).show()
                 layoutManager.findViewByPosition(position).let {
                     if (it != null) {
-                        barcodeContent = it.findViewById<TextView>(R.id.recycler_ean).text.toString()
+                        viewModel.barcodeContent =
+                            it.findViewById<TextView>(R.id.recycler_ean).text.toString()
                         findViewById<EditText>(R.id.name).setText(it.findViewById<TextView>(R.id.recycler_name).text.toString())
                         findViewById<EditText>(R.id.description).setText(it.findViewById<TextView>(R.id.recycler_description).text.toString())
                         findViewById<EditText>(R.id.category).setText(it.findViewById<TextView>(R.id.recycler_category).text.toString())
@@ -146,7 +128,14 @@ class ProductsActivity : AppCompatActivity() {
         }
 
         findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
-            viewModel.save(Product(barcodeContent, nameContent, descriptionContent, categoryContent))
+            viewModel.save(
+                Product(
+                    viewModel.barcodeContent,
+                    viewModel.nameContent,
+                    viewModel.descriptionContent,
+                    viewModel.categoryContent
+                )
+            )
             findViewById<EditText>(R.id.name).text.clear()
             findViewById<EditText>(R.id.description).text.clear()
             findViewById<EditText>(R.id.category).text.clear()
@@ -158,7 +147,9 @@ class ProductsActivity : AppCompatActivity() {
         }
 
         findViewById<EditText>(R.id.name)?.addTextChangedListener(formFiledValueChangeListener)
-        findViewById<EditText>(R.id.description)?.addTextChangedListener(formFiledValueChangeListener)
+        findViewById<EditText>(R.id.description)?.addTextChangedListener(
+            formFiledValueChangeListener
+        )
         findViewById<EditText>(R.id.category)?.addTextChangedListener(formFiledValueChangeListener)
     }
 }
