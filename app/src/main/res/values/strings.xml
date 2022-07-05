@@ -14,5 +14,9 @@
     <string name="name_of_product">Nazwa produktu</string>
     <string name="description_of_product">Opis produktu</string>
     <string name="category_of_product">Kategoria produktu</string>
+
     <string name="icon_item">ITEM</string>
+
+    <string name="chose_item">Wybrano produkt</string>
+    <string name="scaning_cancel">Skanowanie anulowane</string>
 </resources>

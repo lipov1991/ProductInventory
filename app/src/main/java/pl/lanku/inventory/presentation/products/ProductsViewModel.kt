@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.entity.Product
+//import pl.lanku.inventory.R.id.*
 
 class ProductsViewModel(
     private val productsRepository: ProductRepository,
@@ -22,17 +23,18 @@ class ProductsViewModel(
     var descriptionContent: String = ""
     var categoryContent: String = ""
 
-//    //ET = EditText
-//    var nameET: TextView //= findViewById<EditText>(R.id.name)
-//    lateinit var descriptionET: TextView //= findViewById<EditText>(R.id.description)
-//    lateinit var categoryET: TextView //= findViewById<EditText>(R.id.category)
-//    lateinit var saveButton: FloatingActionButton //= findViewById<EditText>(R.id.save_product_button)
+    //ET = EditText
+//    @SuppressLint("StaticFieldLeak")
+//    var nameET: TextView = findViewById<EditText>(name)
+//    var descriptionET: TextView //= findViewById<EditText>(description)
+//    var categoryET: TextView //= findViewById<EditText>(category)
+//    var saveButton: FloatingActionButton //= findViewById<EditText>(save_product_button)
 //
 //    //RI = Recycle Item
-//    lateinit var eanRI: TextView //= findViewById<EditText>(R.id.recycler_ean)
-//    lateinit var nameRI: TextView //= findViewById<EditText>(R.id.recycler_name)
-//    lateinit var descriptionRI: TextView //= findViewById<EditText>(R.id.recycler_description)
-//    lateinit var categoryRI: TextView //= findViewById<EditText>(R.id.recycler_category)
+//    var eanRI: TextView //= findViewById<EditText>(recycler_ean)
+//    var nameRI: TextView //= findViewById<EditText>(recycler_name)
+//    var descriptionRI: TextView //= findViewById<EditText>(recycler_description)
+//    var categoryRI: TextView //= findViewById<EditText>(recycler_category)
 
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()
 
