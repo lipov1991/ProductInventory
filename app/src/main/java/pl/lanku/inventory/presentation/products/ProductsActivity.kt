@@ -3,6 +3,7 @@ package pl.lanku.inventory.presentation.products
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
-import kotlinx.android.synthetic.main.activity_products.*
+import kotlinx.android.synthetic.main.recycler_item.*
 import kotlinx.android.synthetic.main.recycler_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
@@ -54,16 +55,16 @@ class ProductsActivity : AppCompatActivity() {
 
     private fun barcodeCheck() {
         viewModel.selectOneItem(viewModel.barcodeContent).observe(::getLifecycle) { product ->
-            name.setText(product.name)
-            description.setText(product.description)
-            category.setText(product.category)
+            binding.name.setText(product.name)
+            binding.description.setText(product.description)
+            binding.category.setText(product.category)
         }
     }
 
     private fun cleanET() {
-        name.text = null
-        description.text = null
-        category.text = null
+        binding.name.text = null
+        binding.description.text = null
+        binding.category.text = null
     }
 
     private fun cancelScanCode() {
@@ -71,17 +72,17 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun validateForm() {
-        viewModel.nameContent = name.text.toString()
-        viewModel.descriptionContent = description.text.toString()
-        viewModel.categoryContent = category.text.toString()
-        save_product_button?.isEnabled =
+        viewModel.nameContent = binding.name.text.toString()
+        viewModel.descriptionContent = binding.description.text.toString()
+        viewModel.categoryContent = binding.category.text.toString()
+        binding.saveProductButton.isEnabled =
             viewModel.barcodeContent.isNotBlank() && viewModel.nameContent.isNotBlank() && viewModel.descriptionContent.isNotBlank() && viewModel.categoryContent.isNotBlank()
     }
 
     private fun setFormFieldsEnabled(enable: Boolean) {
-        name.isEnabled = enable
-        description.isEnabled = enable
-        category.isEnabled = enable
+        binding.name.isEnabled = enable
+        binding.description.isEnabled = enable
+        binding.category.isEnabled = enable
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +98,7 @@ class ProductsActivity : AppCompatActivity() {
         onClickSaveSet()
         onClickClearDbSet()
         onClickScannerStartSet()
-        onClickEditProductSet(productAdapter, layoutManager)
+        onClickEditProductSet(productAdapter,layoutManager)
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -109,7 +110,7 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun onClickScannerStartSet() {
-        qrScanner.setOnClickListener {
+        binding.qrScanner.setOnClickListener {
             viewModel.scanBarcode(
                 barcodeLauncher,
                 getString(string.qr_scanner_prompt)
@@ -118,7 +119,7 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun onClickSaveSet() {
-        save_product_button.setOnClickListener {
+        binding.saveProductButton.setOnClickListener {
             viewModel.save(
                 Product(
                     viewModel.barcodeContent,
@@ -127,39 +128,36 @@ class ProductsActivity : AppCompatActivity() {
                     viewModel.categoryContent
                 )
             )
-            name.text.clear()
-            description.text.clear()
-            category.text.clear()
+            binding.name.text.clear()
+            binding.description.text.clear()
+            binding.category.text.clear()
             setFormFieldsEnabled(false)
         }
     }
 
     private fun onClickClearDbSet() {
-        remove_product_button.setOnClickListener {
+        binding.removeProductButton.setOnClickListener {
             viewModel.deleteAll()
         }
     }
 
     private fun textChangeSet() {
-        name?.addTextChangedListener(formFiledValueChangeListener)
-        description?.addTextChangedListener(formFiledValueChangeListener)
-        category?.addTextChangedListener(formFiledValueChangeListener)
+        binding.name.addTextChangedListener(formFiledValueChangeListener)
+        binding.description.addTextChangedListener(formFiledValueChangeListener)
+        binding.category.addTextChangedListener(formFiledValueChangeListener)
     }
 
-    private fun onClickEditProductSet(
-        productAdapter: ProductAdapter,
-        layoutManager: RecyclerView.LayoutManager
-    ) {
+    private fun onClickEditProductSet(productAdapter:ProductAdapter, layoutManager:RecyclerView.LayoutManager){
         productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 Toast.makeText(this@ProductsActivity, string.chose_item, Toast.LENGTH_SHORT).show()
                 layoutManager.findViewByPosition(position).let {
                     if (it != null) {
                         viewModel.barcodeContent =
-                            it.recycler_ean.text.toString()
-                        name.setText(it.recycler_name.text.toString())
-                        description.setText(it.recycler_description.text.toString())
-                        category.setText(it.recycler_category.text.toString())
+                            it.findViewById<TextView>(recycler_ean)?.text.toString()
+                        binding.name.setText(it.findViewById<TextView>(recycler_name)?.text.toString())
+                        binding.description.setText(it.findViewById<TextView>(recycler_description)?.text.toString())
+                        binding.category.setText(it.findViewById<TextView>(recycler_category)?.text.toString())
                         setFormFieldsEnabled(true)
                         validateForm()
                     }

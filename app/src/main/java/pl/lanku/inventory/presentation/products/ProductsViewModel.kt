@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.entity.Product
-//import pl.lanku.inventory.R.id.*
 
 class ProductsViewModel(
     private val productsRepository: ProductRepository,
@@ -22,20 +21,9 @@ class ProductsViewModel(
     var nameContent: String = ""
     var descriptionContent: String = ""
     var categoryContent: String = ""
-
-    //ET = EditText
-//    @SuppressLint("StaticFieldLeak")
-//    var nameET: TextView = findViewById<EditText>(name)
-//    var descriptionET: TextView //= findViewById<EditText>(description)
-//    var categoryET: TextView //= findViewById<EditText>(category)
-//    var saveButton: FloatingActionButton //= findViewById<EditText>(save_product_button)
-//
-//    //RI = Recycle Item
-//    var eanRI: TextView //= findViewById<EditText>(recycler_ean)
-//    var nameRI: TextView //= findViewById<EditText>(recycler_name)
-//    var descriptionRI: TextView //= findViewById<EditText>(recycler_description)
-//    var categoryRI: TextView //= findViewById<EditText>(recycler_category)
-
+    
+    //RI=Recycler Item
+    
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()
 
     fun save(product: Product) = viewModelScope.launch {
