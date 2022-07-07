@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="10dp"
-    android:background="@drawable/ic_border_bottom">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/ic_border_bottom"
+    android:padding="10dp">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:id="@+id/round"
-            android:gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/ic_item_icon"
-            android:orientation="horizontal" />
+            android:layout_gravity="start|center"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"/>
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="-5dp">
+            android:orientation="vertical"
+            android:id="@+id/data"
+            android:layout_marginStart="50dp">
+
             <TextView
                 android:id="@+id/recycler_ean"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"/>
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="invisible" />
+
             <TextView
                 android:id="@+id/recycler_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name_of_product"
-                android:textSize="20sp"
-                android:textColor="@color/teal_700"/>
+                android:textColor="@color/teal_700"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/recycler_description"
@@ -48,5 +55,16 @@
                 android:textColor="#00838F"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/remove_product_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center"
+            android:layout_margin="2dp"
+            app:srcCompat="@drawable/ic_remove"
+            tools:ignore="ImageContrastCheck"
+            android:contentDescription="@string/remove_item" />
+
     </FrameLayout>
 </layout>

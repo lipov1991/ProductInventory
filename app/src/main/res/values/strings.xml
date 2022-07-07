@@ -19,4 +19,8 @@
 
     <string name="chose_item">Wybrano produkt</string>
     <string name="scaning_cancel">Skanowanie anulowane</string>
+    <string name="clear_inputs">Wyczyść pola</string>
+
+    <string name="remove_item">Usuń pozycję</string>
+    <string name="item_deleted">Produkt usunięty pomyślnie</string>
 </resources>

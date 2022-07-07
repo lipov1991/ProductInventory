@@ -16,6 +16,7 @@ class ProductAdapter(
 
     interface OnItemClickListener{
         fun onItemClick(position: Int)
+        fun onRemoveClick(position: Int)
     }
 
     fun setOnClickItemListener(listener:OnItemClickListener){
@@ -32,6 +33,7 @@ class ProductAdapter(
         init {
             itemView.setOnClickListener {
                 listener.onItemClick(adapterPosition)
+                listener.onRemoveClick(adapterPosition)
             }
         }
 

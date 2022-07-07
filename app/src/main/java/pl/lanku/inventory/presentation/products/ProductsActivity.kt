@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
-import kotlinx.android.synthetic.main.recycler_item.*
-import kotlinx.android.synthetic.main.recycler_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
 import pl.lanku.inventory.R.string
@@ -96,9 +94,9 @@ class ProductsActivity : AppCompatActivity() {
 
         textChangeSet()
         onClickSaveSet()
-        onClickClearDbSet()
+        onClickInputsClear()
         onClickScannerStartSet()
-        onClickEditProductSet(productAdapter,layoutManager)
+        onClickEditProductSet(productAdapter, layoutManager)
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -111,15 +109,17 @@ class ProductsActivity : AppCompatActivity() {
 
     private fun onClickScannerStartSet() {
         binding.qrScanner.setOnClickListener {
-            viewModel.scanBarcode(
-                barcodeLauncher,
-                getString(string.qr_scanner_prompt)
+            barcodeLauncher.launch(
+                viewModel.scanBarcode(
+                    getString(string.qr_scanner_prompt)
+                )
             )
         }
     }
 
     private fun onClickSaveSet() {
         binding.saveProductButton.setOnClickListener {
+            validateForm()
             viewModel.save(
                 Product(
                     viewModel.barcodeContent,
@@ -128,17 +128,16 @@ class ProductsActivity : AppCompatActivity() {
                     viewModel.categoryContent
                 )
             )
-            binding.name.text.clear()
-            binding.description.text.clear()
-            binding.category.text.clear()
+            clearInputs()
             setFormFieldsEnabled(false)
         }
     }
 
-    private fun onClickClearDbSet() {
-        binding.removeProductButton.setOnClickListener {
-            viewModel.deleteAll()
-        }
+    private fun clearInputs() {
+        viewModel.barcodeContent = null.toString()
+        binding.name.text.clear()
+        binding.description.text.clear()
+        binding.category.text.clear()
     }
 
     private fun textChangeSet() {
@@ -147,22 +146,42 @@ class ProductsActivity : AppCompatActivity() {
         binding.category.addTextChangedListener(formFiledValueChangeListener)
     }
 
-    private fun onClickEditProductSet(productAdapter:ProductAdapter, layoutManager:RecyclerView.LayoutManager){
+    private fun onClickEditProductSet(
+        productAdapter: ProductAdapter,
+        layoutManager: RecyclerView.LayoutManager
+    ) {
         productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Toast.makeText(this@ProductsActivity, string.chose_item, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProductsActivity, string.item_deleted, Toast.LENGTH_SHORT).show()
                 layoutManager.findViewByPosition(position).let {
                     if (it != null) {
                         viewModel.barcodeContent =
-                            it.findViewById<TextView>(recycler_ean)?.text.toString()
-                        binding.name.setText(it.findViewById<TextView>(recycler_name)?.text.toString())
-                        binding.description.setText(it.findViewById<TextView>(recycler_description)?.text.toString())
-                        binding.category.setText(it.findViewById<TextView>(recycler_category)?.text.toString())
+                            it.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
+                        binding.name.setText(it.findViewById<TextView>(R.id.recycler_name)?.text.toString())
+                        binding.description.setText(it.findViewById<TextView>(R.id.recycler_description)?.text.toString())
+                        binding.category.setText(it.findViewById<TextView>(R.id.recycler_category)?.text.toString())
                         setFormFieldsEnabled(true)
                         validateForm()
                     }
                 }
             }
+            override fun onRemoveClick(position: Int) {
+                Toast.makeText(this@ProductsActivity, string.chose_item, Toast.LENGTH_SHORT).show()
+                layoutManager.findViewByPosition(position).let {
+                    if (it != null) {
+                        viewModel.barcodeContent =
+                            it.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
+                        viewModel.removeProduct(viewModel.barcodeContent)
+                    }
+                }
+            }
         })
+    }
+
+    private fun onClickInputsClear() {
+        binding.clearInputs.setOnClickListener{
+            clearInputs()
+            validateForm()
+        }
     }
 }

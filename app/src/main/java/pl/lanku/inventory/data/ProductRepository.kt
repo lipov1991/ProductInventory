@@ -13,17 +13,16 @@ class ProductRepository(private val productDao: ProductDao) {
     fun selectOneItem(barcode: String):LiveData<Product> =
         productDao.selectOneItem(barcode)
 
-    fun getRowCount(barcode:String):LiveData<Integer> =
+    fun getRowCount(barcode:String):LiveData<Int> =
         productDao.getRowCount(barcode)
+
+    @WorkerThread
+    fun removeProduct(barcodeContent: String) =
+        productDao.removeProduct(barcodeContent)
 
     @WorkerThread
     suspend fun save(product: Product) {
         productDao.save(product)
-    }
-
-    @WorkerThread
-    suspend fun deleteAll() {
-        productDao.deleteAll()
     }
 
 }

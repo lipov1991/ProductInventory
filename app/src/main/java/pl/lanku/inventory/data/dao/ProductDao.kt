@@ -17,12 +17,12 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(product: Product)
 
-    @Query("DELETE FROM product;")
-    suspend fun deleteAll()
-
     @Query("SELECT * FROM product WHERE ean LIKE :barcode")
     fun selectOneItem(barcode: String):LiveData<Product>
 
     @Query("SELECT COUNT(*) FROM product WHERE ean LIKE :barcode")
-    fun getRowCount(barcode:String):LiveData<Integer>
+    fun getRowCount(barcode:String):LiveData<Int>
+
+    @Query("DELETE FROM product WHERE ean LIKE :barcode")
+    fun removeProduct(barcode:String)
 }
