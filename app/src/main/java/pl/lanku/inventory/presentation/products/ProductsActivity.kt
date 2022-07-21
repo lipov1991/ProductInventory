@@ -152,7 +152,7 @@ class ProductsActivity : AppCompatActivity() {
     ) {
         productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Toast.makeText(this@ProductsActivity, string.item_deleted, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProductsActivity, string.chose_item, Toast.LENGTH_SHORT).show()
                 layoutManager.findViewByPosition(position).let {
                     if (it != null) {
                         viewModel.barcodeContent =
@@ -165,23 +165,22 @@ class ProductsActivity : AppCompatActivity() {
                     }
                 }
             }
-            override fun onRemoveClick(position: Int) {
-                Toast.makeText(this@ProductsActivity, string.chose_item, Toast.LENGTH_SHORT).show()
+        })
+        
+        productAdapter.setOnClickItemListener(object :  ProductAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
                 layoutManager.findViewByPosition(position).let {
-                    if (it != null) {
-                        viewModel.barcodeContent =
-                            it.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
-                        viewModel.removeProduct(viewModel.barcodeContent)
-                    }
+                    viewModel.barcodeContent = it?.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
+                    viewModel.removeProduct(viewModel.barcodeContent)
                 }
             }
         })
     }
 
     private fun onClickInputsClear() {
-        binding.clearInputs.setOnClickListener{
-            clearInputs()
-            validateForm()
+            binding.clearInputs.setOnClickListener {
+                clearInputs()
+                validateForm()
+            }
         }
-    }
 }
