@@ -12,8 +12,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="460dp"
-            android:layout_marginTop="160dp">
+            android:layout_height="410dp"
+            android:layout_marginTop="200dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
@@ -24,7 +24,6 @@
                 app:layout_constraintHorizontal_bias="0.478"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/category" />
-
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,7 +43,8 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="start|top"
             android:background="@drawable/ic_border_bottom"
             android:ems="10"
             android:enabled="false"
@@ -58,7 +58,7 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/ic_border_bottom"
             android:ems="10"
             android:enabled="false"
@@ -72,8 +72,8 @@
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
-            android:layout_marginTop="100dp"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="150dp"
             android:autofillHints=""
             android:background="@drawable/ic_border_bottom"
             android:ems="10"
@@ -106,6 +106,33 @@
             android:tint="@color/white"
             app:srcCompat="@drawable/ic_cleaning"
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+        <Button
+            android:id="@+id/pol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pol"
+            android:layout_gravity="center|top"
+            android:backgroundTint="@color/buttons_green"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/eng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eng"
+            android:layout_gravity="start|top"
+            android:backgroundTint="@color/buttons_green"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/deu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deu"
+            android:layout_gravity="end|top"
+            android:backgroundTint="@color/buttons_green"
+            android:textColor="@color/black"/>
 
     </FrameLayout>
 </layout>

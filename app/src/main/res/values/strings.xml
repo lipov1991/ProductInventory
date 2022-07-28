@@ -5,8 +5,7 @@
     <string name="first_fragment_label">Pierwszy Fragment</string>
     <string name="second_fragment_label">Drugi Fragment</string>
     <string name="next">Następne</string>
-    <string name="previous">Poprzednie</string>
-
+    <string name="previous">Poprzedni</string>
     <string name="qr_scanner_prompt">"Zeskanuj kod produktu"</string>
     <string name="name_of_product">Nazwa produktu</string>
     <string name="description_of_product">Opis produktu</string>
@@ -20,4 +19,7 @@
 
     <string name="remove_item">Usuń pozycję</string>
     <string name="item_deleted">Produkt usunięty pomyślnie</string>
+
+    <string name="language">Języki</string>
+
 </resources>
