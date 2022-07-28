@@ -107,32 +107,29 @@
             app:srcCompat="@drawable/ic_cleaning"
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
-        <Button
-            android:id="@+id/pol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pol"
-            android:layout_gravity="center|top"
-            android:backgroundTint="@color/buttons_green"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/eng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/eng"
-            android:layout_gravity="start|top"
-            android:backgroundTint="@color/buttons_green"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/deu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/deu"
+        <ImageButton
+            android:id="@+id/ger"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/de_flag"
             android:layout_gravity="end|top"
-            android:backgroundTint="@color/buttons_green"
-            android:textColor="@color/black"/>
+            android:contentDescription="@string/ger" />
+
+        <ImageButton
+            android:id="@+id/pol"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/pl_flag"
+            android:layout_gravity="center|top"
+            android:contentDescription="@string/pol" />
+
+        <ImageButton
+            android:id="@+id/uk"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/gb_flag"
+            android:layout_gravity="start|top"
+            android:contentDescription="@string/eng" />
 
     </FrameLayout>
 </layout>

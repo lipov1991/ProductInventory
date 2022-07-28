@@ -21,5 +21,8 @@
     <string name="item_deleted">Produkt usunięty pomyślnie</string>
 
     <string name="language">Języki</string>
+    <string name="pol">Polski</string>
+    <string name="eng">Angielski</string>
+    <string name="ger">Niemiecki</string>
 
 </resources>
