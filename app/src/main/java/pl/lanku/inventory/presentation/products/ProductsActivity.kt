@@ -166,21 +166,12 @@ class ProductsActivity : AppCompatActivity() {
                 }
             }
         })
-        
-        productAdapter.setOnClickItemListener(object :  ProductAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                layoutManager.findViewByPosition(position).let {
-                    viewModel.barcodeContent = it?.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
-                    viewModel.removeProduct(viewModel.barcodeContent)
-                }
-            }
-        })
     }
 
     private fun onClickInputsClear() {
-            binding.clearInputs.setOnClickListener {
-                clearInputs()
-                validateForm()
-            }
+        binding.clearInputs.setOnClickListener {
+            clearInputs()
+            validateForm()
         }
+    }
 }

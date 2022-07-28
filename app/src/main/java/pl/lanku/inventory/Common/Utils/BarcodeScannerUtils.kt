@@ -11,6 +11,7 @@ class BarcodeScannerUtils {
     fun scanBarcode(scanCaption:String) =
         ScanOptions().apply {
             setPrompt(scanCaption)
+            setOrientationLocked(false)
             setCameraId(MAIN_CAMERA_ID)
             setBeepEnabled(false)
             setBarcodeImageEnabled(true)

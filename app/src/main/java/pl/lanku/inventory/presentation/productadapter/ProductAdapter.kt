@@ -15,8 +15,7 @@ class ProductAdapter(
     private lateinit var mListener: OnItemClickListener
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int, view: View?)
-        fun onRemoveClick(position: Int, view: View?)
+        fun onItemClick(position: Int)
     }
 
     fun setOnClickItemListener(listener: OnItemClickListener) {
@@ -32,8 +31,7 @@ class ProductAdapter(
 
         init {
             itemView.setOnClickListener {
-                listener.onItemClick(adapterPosition, null)
-                listener.onRemoveClick(adapterPosition, null)
+                listener.onItemClick(adapterPosition)
             }
         }
 

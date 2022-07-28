@@ -56,15 +56,15 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/remove_product_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|center"
-            android:layout_margin="2dp"
-            app:srcCompat="@drawable/ic_remove"
-            tools:ignore="ImageContrastCheck"
-            android:contentDescription="@string/remove_item" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/remove_product_button"-->
+<!--            android:layout_width="48dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_gravity="end|center"-->
+<!--            android:layout_margin="2dp"-->
+<!--            app:srcCompat="@drawable/ic_remove"-->
+<!--            tools:ignore="ImageContrastCheck"-->
+<!--            android:contentDescription="@string/remove_item" />-->
 
     </FrameLayout>
 </layout>
