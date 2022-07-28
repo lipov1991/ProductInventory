@@ -16,9 +16,8 @@
         <activity
             android:name=".presentation.products.ProductsActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Inventory.NoActionBar"
-            tools:replace="screenOrientation"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
