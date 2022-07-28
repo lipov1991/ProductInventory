@@ -12,18 +12,18 @@ class ProductAdapter(
     private var productList: List<Product>
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
-    private lateinit var mListener:OnItemClickListener
+    private lateinit var mListener: OnItemClickListener
 
-    interface OnItemClickListener{
-        fun onItemClick(position: Int)
-//        fun onRemoveClick(position: Int)
+    interface OnItemClickListener {
+        fun onItemClick(position: Int, view: View?)
+        fun onRemoveClick(position: Int, view: View?)
     }
 
-    fun setOnClickItemListener(listener:OnItemClickListener){
-        mListener=listener
+    fun setOnClickItemListener(listener: OnItemClickListener) {
+        mListener = listener
     }
 
-    class ProductViewHolder(itemView: View, listener:OnItemClickListener) :
+    class ProductViewHolder(itemView: View, listener: OnItemClickListener) :
         RecyclerView.ViewHolder(itemView) {
         private val eanIR: TextView = itemView.findViewById(R.id.recycler_ean)
         private val nameIR: TextView = itemView.findViewById(R.id.recycler_name)
@@ -32,8 +32,8 @@ class ProductAdapter(
 
         init {
             itemView.setOnClickListener {
-                listener.onItemClick(adapterPosition)
-//                listener.onRemoveClick(adapterPosition)
+                listener.onItemClick(adapterPosition, null)
+                listener.onRemoveClick(adapterPosition, null)
             }
         }
 
@@ -55,7 +55,7 @@ class ProductAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_item, parent, false)
-        return ProductViewHolder(view,mListener)
+        return ProductViewHolder(view, mListener)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {

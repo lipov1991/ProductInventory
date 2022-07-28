@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+.gradle/buildOutputCleanup/outputFiles.bin
+*.lock
+*.bin
+*.xml
