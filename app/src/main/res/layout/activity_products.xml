@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="410dp"
+            android:layout_height="415dp"
             android:layout_marginTop="200dp">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -113,7 +113,8 @@
             android:layout_height="50dp"
             app:srcCompat="@drawable/de_flag"
             android:layout_gravity="end|top"
-            android:contentDescription="@string/ger" />
+            android:contentDescription="@string/ger"
+            android:backgroundTint="@color/zxing_transparent" />
 
         <ImageButton
             android:id="@+id/pol"
@@ -121,7 +122,8 @@
             android:layout_height="50dp"
             app:srcCompat="@drawable/pl_flag"
             android:layout_gravity="center|top"
-            android:contentDescription="@string/pol" />
+            android:contentDescription="@string/pol"
+            android:backgroundTint="@color/zxing_transparent"/>
 
         <ImageButton
             android:id="@+id/uk"
@@ -129,7 +131,8 @@
             android:layout_height="50dp"
             app:srcCompat="@drawable/gb_flag"
             android:layout_gravity="start|top"
-            android:contentDescription="@string/eng" />
+            android:contentDescription="@string/eng"
+            android:backgroundTint="@color/zxing_transparent" />
 
     </FrameLayout>
 </layout>
