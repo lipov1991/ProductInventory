@@ -1,5 +1,6 @@
 package pl.lanku.inventory.presentation.products
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -148,14 +149,37 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun changeLanguage() {
-        binding.eng.setOnClickListener() {
-            Toast.makeText()
+        binding.eng.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.engchange,Toast.LENGTH_SHORT).show()
+            changeBackgroundColor("0")
         }
-        binding.pol.setOnClickListener() {
-
+        binding.pol.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.polchange,Toast.LENGTH_SHORT).show()
+            changeBackgroundColor("1")
         }
-        binding.ger.setOnClickListener() {
+        binding.ger.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.gerchange,Toast.LENGTH_SHORT).show()
+            changeBackgroundColor("2")
+        }
+    }
 
+    private fun changeBackgroundColor(lan: String){
+        when (lan) {
+            "0" -> {
+                binding.eng.setBackgroundColor(Color.GREEN)
+                binding.pol.setBackgroundColor(Color.alpha(0))
+                binding.ger.setBackgroundColor(Color.alpha(0))
+            }
+            "1" -> {
+                binding.eng.setBackgroundColor(Color.alpha(0))
+                binding.pol.setBackgroundColor(Color.GREEN)
+                binding.ger.setBackgroundColor(Color.alpha(0))
+            }
+            "2" -> {
+                binding.eng.setBackgroundColor(Color.alpha(0))
+                binding.pol.setBackgroundColor(Color.alpha(0))
+                binding.ger.setBackgroundColor(Color.GREEN)
+            }
         }
     }
 
