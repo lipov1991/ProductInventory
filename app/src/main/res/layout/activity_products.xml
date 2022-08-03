@@ -126,7 +126,7 @@
             android:backgroundTint="@color/zxing_transparent"/>
 
         <ImageButton
-            android:id="@+id/uk"
+            android:id="@+id/eng"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:srcCompat="@drawable/gb_flag"

@@ -25,4 +25,7 @@
     <string name="eng">Angielski</string>
     <string name="ger">Niemiecki</string>
 
+    <string name="polchange">Język zmieniono pomyślnie</string>
+    <string name="engchange">Language changed successfully</string>
+    <string name="gerchange">Sprache erfolgreich gewechselt</string>
 </resources>

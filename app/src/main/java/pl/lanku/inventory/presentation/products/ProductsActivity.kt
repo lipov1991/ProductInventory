@@ -97,6 +97,7 @@ class ProductsActivity : AppCompatActivity() {
         onClickInputsClear()
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
+        changeLanguage()
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -144,6 +145,18 @@ class ProductsActivity : AppCompatActivity() {
         binding.name.addTextChangedListener(formFiledValueChangeListener)
         binding.description.addTextChangedListener(formFiledValueChangeListener)
         binding.category.addTextChangedListener(formFiledValueChangeListener)
+    }
+
+    private fun changeLanguage() {
+        binding.eng.setOnClickListener() {
+            Toast.makeText()
+        }
+        binding.pol.setOnClickListener() {
+
+        }
+        binding.ger.setOnClickListener() {
+
+        }
     }
 
     private fun onClickEditProductSet(
