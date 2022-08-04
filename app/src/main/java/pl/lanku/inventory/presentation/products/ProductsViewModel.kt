@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.entity.Product
+import java.util.*
 
 class ProductsViewModel(
     private val productsRepository: ProductRepository,
@@ -19,7 +20,7 @@ class ProductsViewModel(
     var nameContent: String = ""
     var descriptionContent: String = ""
     var categoryContent: String = ""
-//    var deviceLanguage : String = Locale.getDefault().getLanguage()
+    var deviceLanguage : String = Locale.getDefault().getLanguage()
 
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()
 

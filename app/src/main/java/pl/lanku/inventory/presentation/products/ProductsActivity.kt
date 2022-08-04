@@ -99,10 +99,10 @@ class ProductsActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         when (Locale.getDefault().language){
-            "en" -> changeBackgroundColor("0")
-            "pl" -> changeBackgroundColor("1")
-            "de" -> changeBackgroundColor("2")
-            else -> changeBackgroundColor("0")
+            "en" -> changeLanguage(temp = Locale.getDefault().language)
+            "pl" -> changeLanguage(temp = Locale.getDefault().language)
+            "de" -> changeLanguage(temp = Locale.getDefault().language)
+            else -> changeLanguage(temp = "en")
         }
 
         textChangeSet()
@@ -110,7 +110,6 @@ class ProductsActivity : AppCompatActivity() {
         onClickInputsClear()
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
-        changeLanguage()
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -177,17 +176,17 @@ class ProductsActivity : AppCompatActivity() {
 
     private fun changeBackgroundColor(lan: String) {
         when (lan) {
-            "0" -> {
+            "en" -> {
                 linearLayoutEng.setBackgroundColor(Color.GREEN)
                 linearLayoutPol.setBackgroundColor(Color.alpha(0))
                 linearLayoutGer.setBackgroundColor(Color.alpha(0))
             }
-            "1" -> {
+            "pl" -> {
                 linearLayoutEng.setBackgroundColor(Color.alpha(0))
                 linearLayoutPol.setBackgroundColor(Color.GREEN)
                 linearLayoutGer.setBackgroundColor(Color.alpha(0))
             }
-            "2" -> {
+            "de" -> {
                 linearLayoutEng.setBackgroundColor(Color.alpha(0))
                 linearLayoutPol.setBackgroundColor(Color.alpha(0))
                 linearLayoutGer.setBackgroundColor(Color.GREEN)
