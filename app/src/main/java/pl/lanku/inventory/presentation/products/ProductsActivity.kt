@@ -42,6 +42,34 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
 
+//    override fun getDelegate() = viewModel.localeDelegate.getAppCompatDelegate(super.getDelegate())
+//
+//    override fun attachBaseContext(newBase: Context) {
+//        super.attachBaseContext(viewModel.localeDelegate.attachBaseContext(newBase))
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        viewModel.localeDelegate.onResumed(this)
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        viewModel.localeDelegate.onPaused()
+//    }
+//
+//    override fun createConfigurationContext(overrideConfiguration: Configuration): Context {
+//        val context = super.createConfigurationContext(overrideConfiguration)
+//        return LocaleHelper.onAttach(context)
+//    }
+//
+//    override fun getApplicationContext(): Context =
+//        viewModel.localeDelegate.getApplicationContext(super.getApplicationContext())
+//
+//    fun updateLocale(locale: Locale) {
+//        viewModel.localeDelegate.setLocale(this, locale)
+//    }
+
     private fun getRowCount() {
         viewModel.getRowCount(viewModel.barcodeContent).observe(::getLifecycle) {
             if (it.toInt() > 0) {
@@ -92,6 +120,8 @@ class ProductsActivity : AppCompatActivity() {
         val recyclerViewProducts = binding.recycler
         val productAdapter = ProductAdapter(emptyList())
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        viewModel.localeDelegate.onCreate(this)
+
 
         textChangeSet()
         onClickSaveSet()
