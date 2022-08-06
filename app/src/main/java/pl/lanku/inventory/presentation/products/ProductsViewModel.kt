@@ -21,7 +21,8 @@ class ProductsViewModel(
     var nameContent: String = ""
     var descriptionContent: String = ""
     var categoryContent: String = ""
-//    var deviceLanguage : String = Locale.getDefault().getLanguage()
+
+    //    var deviceLanguage : String = Locale.getDefault().getLanguage()
     val localeDelegate: LocaleHelperActivityDelegate = LocaleHelperActivityDelegateImpl()
 
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()

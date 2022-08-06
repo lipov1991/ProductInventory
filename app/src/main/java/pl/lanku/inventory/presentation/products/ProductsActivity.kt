@@ -24,9 +24,9 @@ import java.util.*
 class ProductsActivity : AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
     private lateinit var binding: ActivityProductsBinding
-    private val linearLayoutEng : LinearLayout = findViewById(R.id.eng)
-    private val linearLayoutPol : LinearLayout = findViewById(R.id.pol)
-    private val linearLayoutGer : LinearLayout = findViewById(R.id.ger)
+    private val linearLayoutEng: LinearLayout = findViewById(R.id.eng)
+    private val linearLayoutPol: LinearLayout = findViewById(R.id.pol)
+    private val linearLayoutGer: LinearLayout = findViewById(R.id.ger)
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -128,7 +128,7 @@ class ProductsActivity : AppCompatActivity() {
         viewModel.localeDelegate.onCreate(this)
 
 
-        when (Locale.getDefault().language){
+        when (Locale.getDefault().language) {
             "en" -> changeLanguage(temp = Locale.getDefault().language)
             "pl" -> changeLanguage(temp = Locale.getDefault().language)
             "de" -> changeLanguage(temp = Locale.getDefault().language)
@@ -189,7 +189,7 @@ class ProductsActivity : AppCompatActivity() {
         binding.category.addTextChangedListener(formFiledValueChangeListener)
     }
 
-    private fun changeLanguage(temp:String) {
+    private fun changeLanguage(temp: String) {
         binding.eng.setOnClickListener {
             Toast.makeText(this@ProductsActivity, string.engchange, Toast.LENGTH_SHORT).show()
             changeBackgroundColor(temp)
