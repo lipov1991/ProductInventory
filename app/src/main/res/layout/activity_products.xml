@@ -107,32 +107,50 @@
             app:srcCompat="@drawable/ic_cleaning"
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
-        <ImageButton
+        <LinearLayout
+            android:layout_height="51dp"
+            android:layout_width="51dp"
             android:id="@+id/ger"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/de_flag"
-            android:layout_gravity="end|top"
-            android:contentDescription="@string/ger"
-            android:backgroundTint="@color/zxing_transparent" />
+            android:layout_gravity="end|top">
+            <ImageButton
+                android:id="@+id/ger_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/de_flag"
+                android:contentDescription="@string/ger"
+                android:backgroundTint="@color/zxing_transparent"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
 
-        <ImageButton
+        <LinearLayout
+            android:layout_height="51dp"
+            android:layout_width="51dp"
             android:id="@+id/pol"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/pl_flag"
-            android:layout_gravity="center|top"
-            android:contentDescription="@string/pol"
-            android:backgroundTint="@color/zxing_transparent"/>
+            android:layout_gravity="center|top">
+            <ImageButton
+                android:id="@+id/pol_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/pl_flag"
+                android:contentDescription="@string/pol"
+                android:backgroundTint="@color/zxing_transparent"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/eng"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/gb_flag"
+        <LinearLayout
+            android:layout_width="51dp"
+            android:layout_height="51dp"
             android:layout_gravity="start|top"
-            android:contentDescription="@string/eng"
-            android:backgroundTint="@color/zxing_transparent" />
+            android:id="@+id/eng">
+            <ImageButton
+                android:id="@+id/eng_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/gb_flag"
+                android:contentDescription="@string/eng"
+                android:backgroundTint="@color/zxing_transparent"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
     </FrameLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,10 +19,14 @@ import pl.lanku.inventory.R.string
 import pl.lanku.inventory.data.entity.Product
 import pl.lanku.inventory.databinding.ActivityProductsBinding
 import pl.lanku.inventory.presentation.productadapter.ProductAdapter
+import java.util.*
 
 class ProductsActivity : AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
     private lateinit var binding: ActivityProductsBinding
+    private val linearLayoutEng : LinearLayout = findViewById(R.id.eng)
+    private val linearLayoutPol : LinearLayout = findViewById(R.id.pol)
+    private val linearLayoutGer : LinearLayout = findViewById(R.id.ger)
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -123,12 +128,18 @@ class ProductsActivity : AppCompatActivity() {
         viewModel.localeDelegate.onCreate(this)
 
 
+        when (Locale.getDefault().language){
+            "en" -> changeLanguage(temp = Locale.getDefault().language)
+            "pl" -> changeLanguage(temp = Locale.getDefault().language)
+            "de" -> changeLanguage(temp = Locale.getDefault().language)
+            else -> changeLanguage(temp = "en")
+        }
+
         textChangeSet()
         onClickSaveSet()
         onClickInputsClear()
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
-        changeLanguage()
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -178,37 +189,37 @@ class ProductsActivity : AppCompatActivity() {
         binding.category.addTextChangedListener(formFiledValueChangeListener)
     }
 
-    private fun changeLanguage() {
+    private fun changeLanguage(temp:String) {
         binding.eng.setOnClickListener {
-            Toast.makeText(this@ProductsActivity, string.engchange,Toast.LENGTH_SHORT).show()
-            changeBackgroundColor("0")
+            Toast.makeText(this@ProductsActivity, string.engchange, Toast.LENGTH_SHORT).show()
+            changeBackgroundColor(temp)
         }
         binding.pol.setOnClickListener {
-            Toast.makeText(this@ProductsActivity, string.polchange,Toast.LENGTH_SHORT).show()
-            changeBackgroundColor("1")
+            Toast.makeText(this@ProductsActivity, string.polchange, Toast.LENGTH_SHORT).show()
+            changeBackgroundColor(temp)
         }
         binding.ger.setOnClickListener {
-            Toast.makeText(this@ProductsActivity, string.gerchange,Toast.LENGTH_SHORT).show()
-            changeBackgroundColor("2")
+            Toast.makeText(this@ProductsActivity, string.gerchange, Toast.LENGTH_SHORT).show()
+            changeBackgroundColor(temp)
         }
     }
 
-    private fun changeBackgroundColor(lan: String){
+    private fun changeBackgroundColor(lan: String) {
         when (lan) {
-            "0" -> {
-                binding.eng.setBackgroundColor(Color.GREEN)
-                binding.pol.setBackgroundColor(Color.alpha(0))
-                binding.ger.setBackgroundColor(Color.alpha(0))
+            "en" -> {
+                linearLayoutEng.setBackgroundColor(Color.GREEN)
+                linearLayoutPol.setBackgroundColor(Color.alpha(0))
+                linearLayoutGer.setBackgroundColor(Color.alpha(0))
             }
-            "1" -> {
-                binding.eng.setBackgroundColor(Color.alpha(0))
-                binding.pol.setBackgroundColor(Color.GREEN)
-                binding.ger.setBackgroundColor(Color.alpha(0))
+            "pl" -> {
+                linearLayoutEng.setBackgroundColor(Color.alpha(0))
+                linearLayoutPol.setBackgroundColor(Color.GREEN)
+                linearLayoutGer.setBackgroundColor(Color.alpha(0))
             }
-            "2" -> {
-                binding.eng.setBackgroundColor(Color.alpha(0))
-                binding.pol.setBackgroundColor(Color.alpha(0))
-                binding.ger.setBackgroundColor(Color.GREEN)
+            "de" -> {
+                linearLayoutEng.setBackgroundColor(Color.alpha(0))
+                linearLayoutPol.setBackgroundColor(Color.alpha(0))
+                linearLayoutGer.setBackgroundColor(Color.GREEN)
             }
         }
     }

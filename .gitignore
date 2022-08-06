@@ -20,3 +20,8 @@ local.properties
 *.xml
 *.bin
 *.bin
+.idea/misc.xml
+*.bin
+*.lock
+*.lock
+*.xml
