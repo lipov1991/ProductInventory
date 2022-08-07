@@ -28,7 +28,7 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { ProductsViewModel(productsRepository = get(), barcodeScannerUtils = get()) }
+    viewModel { ProductsViewModel(productsRepository = get(), barcodeScannerUtils = get(), viewModeChanger = get()) }
 }
 
 val utilsModule = module {

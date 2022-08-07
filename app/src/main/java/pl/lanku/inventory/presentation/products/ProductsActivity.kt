@@ -44,34 +44,6 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
 
-//    override fun getDelegate() = viewModel.localeDelegate.getAppCompatDelegate(super.getDelegate())
-//
-//    override fun attachBaseContext(newBase: Context) {
-//        super.attachBaseContext(viewModel.localeDelegate.attachBaseContext(newBase))
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.localeDelegate.onResumed(this)
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        viewModel.localeDelegate.onPaused()
-//    }
-//
-//    override fun createConfigurationContext(overrideConfiguration: Configuration): Context {
-//        val context = super.createConfigurationContext(overrideConfiguration)
-//        return LocaleHelper.onAttach(context)
-//    }
-//
-//    override fun getApplicationContext(): Context =
-//        viewModel.localeDelegate.getApplicationContext(super.getApplicationContext())
-//
-//    fun updateLocale(locale: Locale) {
-//        viewModel.localeDelegate.setLocale(this, locale)
-//    }
-
     private fun getRowCount() {
         viewModel.getRowCount(viewModel.barcodeContent).observe(::getLifecycle) {
             if (it.toInt() > 0) {
@@ -138,7 +110,14 @@ class ProductsActivity : AppCompatActivity() {
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
         onClickSettingsShowHide()
-        onClickChangeLightDarkMode()
+
+        binding.lightMode.setOnClickListener {
+            viewModel.toDarkModeChange(binding.lightMode, binding.darkMode)
+        }
+
+        binding.darkMode.setOnClickListener {
+            viewModel.toLightModeChange(binding.lightMode, binding.darkMode)
+        }
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -149,19 +128,9 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
 
-    private fun onClickChangeLightDarkMode() {
-//        if () {
-//            binding.lightMode.visibility = View.VISIBLE
-//            binding.darkMode.visibility = View.INVISIBLE
-//        } else {
-//            binding.lightMode.visibility = View.INVISIBLE
-//            binding.darkMode.visibility = View.VISIBLE
-//        }
-    }
-
     private fun onClickSettingsShowHide() {
-        binding.settingsButton.setOnClickListener{
-            if (binding.options.visibility == View.INVISIBLE){
+        binding.settingsButton.setOnClickListener {
+            if (binding.options.visibility == View.INVISIBLE) {
                 binding.options.visibility = View.VISIBLE
                 it.animate().setDuration(800).rotation(180F).start()
             } else {

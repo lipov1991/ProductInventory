@@ -1,5 +1,6 @@
 package pl.lanku.inventory.presentation.products
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -8,12 +9,14 @@ import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegate
 import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
 import kotlinx.coroutines.launch
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
+import pl.lanku.inventory.common.utils.ViewModeChanger
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.entity.Product
 
 class ProductsViewModel(
     private val productsRepository: ProductRepository,
-    private val barcodeScannerUtils: BarcodeScannerUtils
+    private val barcodeScannerUtils: BarcodeScannerUtils,
+    private val viewModeChanger: ViewModeChanger
 ) : ViewModel() {
 
     //Value
@@ -21,8 +24,7 @@ class ProductsViewModel(
     var nameContent: String = ""
     var descriptionContent: String = ""
     var categoryContent: String = ""
-
-    //    var deviceLanguage : String = Locale.getDefault().getLanguage()
+//    var deviceLanguage : String = Locale.getDefault().language
     val localeDelegate: LocaleHelperActivityDelegate = LocaleHelperActivityDelegateImpl()
 
     val allProducts: LiveData<List<Product>> = productsRepository.allProducts.asLiveData()
@@ -39,6 +41,12 @@ class ProductsViewModel(
 
     fun getRowCount(barcode: String): LiveData<Int> =
         productsRepository.getRowCount(barcode)
+
+    fun toLightModeChange(view_light: View, view_dark: View) =
+        viewModeChanger.toLightModeChange(view_light, view_dark)
+
+    fun toDarkModeChange(view_light: View, view_dark: View) =
+        viewModeChanger.toDarkModeChange(view_light, view_dark)
 
 //    fun removeProduct(barcodeContent: String) =
 //        productsRepository.removeProduct(barcodeContent)
