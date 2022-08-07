@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.LinearLayout
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +24,6 @@ import java.util.*
 class ProductsActivity : AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
     private lateinit var binding: ActivityProductsBinding
-    private val linearLayoutEng: LinearLayout = findViewById(R.id.eng)
-    private val linearLayoutPol: LinearLayout = findViewById(R.id.pol)
-    private val linearLayoutGer: LinearLayout = findViewById(R.id.ger)
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
@@ -140,6 +137,8 @@ class ProductsActivity : AppCompatActivity() {
         onClickInputsClear()
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
+        onClickSettingsShowHide()
+        onClickChangeLightDarkMode()
 
         recyclerViewProducts.adapter = productAdapter
         recyclerViewProducts.layoutManager = layoutManager
@@ -147,6 +146,28 @@ class ProductsActivity : AppCompatActivity() {
 
         viewModel.allProducts.observe(::getLifecycle) { products ->
             productAdapter.updateProducts(products)
+        }
+    }
+
+    private fun onClickChangeLightDarkMode() {
+//        if () {
+//            binding.lightMode.visibility = View.VISIBLE
+//            binding.darkMode.visibility = View.INVISIBLE
+//        } else {
+//            binding.lightMode.visibility = View.INVISIBLE
+//            binding.darkMode.visibility = View.VISIBLE
+//        }
+    }
+
+    private fun onClickSettingsShowHide() {
+        binding.settingsButton.setOnClickListener{
+            if (binding.options.visibility == View.INVISIBLE){
+                binding.options.visibility = View.VISIBLE
+                it.animate().setDuration(800).rotation(180F).start()
+            } else {
+                binding.options.visibility = View.INVISIBLE
+                it.animate().setDuration(800).rotation(-180F).start()
+            }
         }
     }
 
@@ -190,15 +211,15 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun changeLanguage(temp: String) {
-        binding.eng.setOnClickListener {
+        binding.engButton.setOnClickListener {
             Toast.makeText(this@ProductsActivity, string.engchange, Toast.LENGTH_SHORT).show()
             changeBackgroundColor(temp)
         }
-        binding.pol.setOnClickListener {
+        binding.polButton.setOnClickListener {
             Toast.makeText(this@ProductsActivity, string.polchange, Toast.LENGTH_SHORT).show()
             changeBackgroundColor(temp)
         }
-        binding.ger.setOnClickListener {
+        binding.gerButton.setOnClickListener {
             Toast.makeText(this@ProductsActivity, string.gerchange, Toast.LENGTH_SHORT).show()
             changeBackgroundColor(temp)
         }
@@ -207,19 +228,19 @@ class ProductsActivity : AppCompatActivity() {
     private fun changeBackgroundColor(lan: String) {
         when (lan) {
             "en" -> {
-                linearLayoutEng.setBackgroundColor(Color.GREEN)
-                linearLayoutPol.setBackgroundColor(Color.alpha(0))
-                linearLayoutGer.setBackgroundColor(Color.alpha(0))
+                binding.engButton.setBackgroundColor(Color.GREEN)
+                binding.polButton.setBackgroundColor(Color.alpha(0))
+                binding.gerButton.setBackgroundColor(Color.alpha(0))
             }
             "pl" -> {
-                linearLayoutEng.setBackgroundColor(Color.alpha(0))
-                linearLayoutPol.setBackgroundColor(Color.GREEN)
-                linearLayoutGer.setBackgroundColor(Color.alpha(0))
+                binding.engButton.setBackgroundColor(Color.alpha(0))
+                binding.polButton.setBackgroundColor(Color.GREEN)
+                binding.gerButton.setBackgroundColor(Color.alpha(0))
             }
             "de" -> {
-                linearLayoutEng.setBackgroundColor(Color.alpha(0))
-                linearLayoutPol.setBackgroundColor(Color.alpha(0))
-                linearLayoutGer.setBackgroundColor(Color.GREEN)
+                binding.engButton.setBackgroundColor(Color.alpha(0))
+                binding.polButton.setBackgroundColor(Color.alpha(0))
+                binding.gerButton.setBackgroundColor(Color.GREEN)
             }
         }
     }

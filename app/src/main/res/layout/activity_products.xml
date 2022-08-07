@@ -43,8 +43,8 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:layout_gravity="start|top"
+            android:layout_marginTop="50dp"
             android:background="@drawable/ic_border_bottom"
             android:ems="10"
             android:enabled="false"
@@ -107,49 +107,70 @@
             app:srcCompat="@drawable/ic_cleaning"
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settings_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="start|top"
+            android:contentDescription="@string/settings"
+            app:srcCompat="@drawable/ic_settings"
+            tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/light_mode"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="end|top"
+            android:contentDescription="@string/light_mode"
+            app:srcCompat="@drawable/ic_light_mode"
+            android:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dark_mode"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="end|top"
+            android:contentDescription="@string/dark_mode"
+            app:srcCompat="@drawable/ic_dark_mode"
+            android:visibility="invisible" />
+
         <LinearLayout
+            android:id="@+id/options"
+            android:layout_width="wrap_content"
             android:layout_height="51dp"
-            android:layout_width="51dp"
-            android:id="@+id/ger"
-            android:layout_gravity="end|top">
+            android:layout_gravity="start|top"
+            android:layout_marginStart="65dp"
+            android:visibility="invisible">
+
             <ImageButton
                 android:id="@+id/ger_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/de_flag"
-                android:contentDescription="@string/ger"
+                android:layout_gravity="start|top"
                 android:backgroundTint="@color/zxing_transparent"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:contentDescription="@string/ger"
+                app:srcCompat="@drawable/de_flag" />
 
-        <LinearLayout
-            android:layout_height="51dp"
-            android:layout_width="51dp"
-            android:id="@+id/pol"
-            android:layout_gravity="center|top">
             <ImageButton
                 android:id="@+id/pol_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/pl_flag"
-                android:contentDescription="@string/pol"
+                android:layout_gravity="center|top"
                 android:backgroundTint="@color/zxing_transparent"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
+                android:contentDescription="@string/pol"
+                app:srcCompat="@drawable/pl_flag"
+                android:layout_marginStart="15dp"/>
 
-        <LinearLayout
-            android:layout_width="51dp"
-            android:layout_height="51dp"
-            android:layout_gravity="start|top"
-            android:id="@+id/eng">
             <ImageButton
                 android:id="@+id/eng_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/gb_flag"
-                android:contentDescription="@string/eng"
+                android:layout_gravity="end"
                 android:backgroundTint="@color/zxing_transparent"
-                android:layout_gravity="center_horizontal" />
+                android:contentDescription="@string/eng"
+                app:srcCompat="@drawable/gb_flag"
+                android:layout_marginStart="15dp"/>
+
         </LinearLayout>
 
     </FrameLayout>

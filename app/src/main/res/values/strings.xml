@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Inventory</string>
     <string name="action_settings">Ustawienia</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">Pierwszy Fragment</string>
     <string name="second_fragment_label">Drugi Fragment</string>
-    <string name="next">Następne</string>
     <string name="previous">Poprzedni</string>
+    <string name="next">Następny</string>
     <string name="qr_scanner_prompt">"Zeskanuj kod produktu"</string>
     <string name="name_of_product">Nazwa produktu</string>
     <string name="description_of_product">Opis produktu</string>
@@ -28,4 +29,8 @@
     <string name="polchange">Język zmieniono pomyślnie</string>
     <string name="engchange">Language changed successfully</string>
     <string name="gerchange">Sprache erfolgreich gewechselt</string>
+
+    <string name="settings">Ustawienia</string>
+    <string name="dark_mode">Ciemny tryb</string>
+    <string name="light_mode">Jasny tryb</string>
 </resources>
