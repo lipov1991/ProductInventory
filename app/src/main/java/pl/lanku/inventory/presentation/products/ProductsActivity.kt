@@ -109,7 +109,7 @@ class ProductsActivity : AppCompatActivity() {
         onClickEditProductSet(productAdapter, layoutManager)
 
         binding.settingsButton.setOnClickListener {
-            viewModel.onClickSettingsShowHide(binding.options)
+            viewModel.onClickSettingsShowHide(binding.options,it)
         }
 
         binding.lightMode.setOnClickListener {

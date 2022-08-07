@@ -6,8 +6,8 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
-import pl.lanku.inventory.common.utils.SettingsHelper
-import pl.lanku.inventory.common.utils.ViewModeChanger
+import pl.lanku.inventory.common.utils.SettingsHelperUtils
+import pl.lanku.inventory.common.utils.ViewModeChangerUtils
 import pl.lanku.inventory.data.ProductDb
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.dao.ProductDao
@@ -30,11 +30,11 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { ProductsViewModel(productsRepository = get(), barcodeScannerUtils = get(), viewModeChanger = get(), settingsHelper = get()) }
+    viewModel { ProductsViewModel(productsRepository = get(), barcodeScannerUtils = get(), viewModeChangerUtils = get(), settingsHelperUtils = get()) }
 }
 
 val utilsModule = module {
     single { BarcodeScannerUtils() }
-    single { ViewModeChanger() }
-    single { SettingsHelper() }
+    single { ViewModeChangerUtils() }
+    single { SettingsHelperUtils() }
 }

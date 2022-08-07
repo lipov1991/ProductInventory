@@ -3,7 +3,7 @@ package pl.lanku.inventory.common.utils
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 
-class ViewModeChanger {
+class ViewModeChangerUtils {
     fun toLightModeChange(view_light: View, view_dark: View){
         view_dark.visibility = View.INVISIBLE
         view_light.visibility = View.VISIBLE
