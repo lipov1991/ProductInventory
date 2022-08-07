@@ -9,6 +9,7 @@ import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegate
 import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
 import kotlinx.coroutines.launch
 import pl.lanku.inventory.common.utils.BarcodeScannerUtils
+import pl.lanku.inventory.common.utils.SettingsHelper
 import pl.lanku.inventory.common.utils.ViewModeChanger
 import pl.lanku.inventory.data.ProductRepository
 import pl.lanku.inventory.data.entity.Product
@@ -16,7 +17,8 @@ import pl.lanku.inventory.data.entity.Product
 class ProductsViewModel(
     private val productsRepository: ProductRepository,
     private val barcodeScannerUtils: BarcodeScannerUtils,
-    private val viewModeChanger: ViewModeChanger
+    private val viewModeChanger: ViewModeChanger,
+    private val settingsHelper: SettingsHelper
 ) : ViewModel() {
 
     //Value
@@ -47,6 +49,10 @@ class ProductsViewModel(
 
     fun toDarkModeChange(view_light: View, view_dark: View) =
         viewModeChanger.toDarkModeChange(view_light, view_dark)
+
+    fun onClickSettingsShowHide(view: View){
+        settingsHelper.onClickSettingsShowHide(view)
+    }
 
 //    fun removeProduct(barcodeContent: String) =
 //        productsRepository.removeProduct(barcodeContent)

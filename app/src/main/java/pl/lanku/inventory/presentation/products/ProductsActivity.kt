@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -96,12 +95,11 @@ class ProductsActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         viewModel.localeDelegate.onCreate(this)
 
-
         when (Locale.getDefault().language) {
-            "en" -> changeLanguage(temp = Locale.getDefault().language)
-            "pl" -> changeLanguage(temp = Locale.getDefault().language)
-            "de" -> changeLanguage(temp = Locale.getDefault().language)
-            else -> changeLanguage(temp = "en")
+            "en" -> changeLanguage(Locale.getDefault().language)
+            "pl" -> changeLanguage(Locale.getDefault().language)
+            "de" -> changeLanguage(Locale.getDefault().language)
+            else -> changeLanguage("en")
         }
 
         textChangeSet()
@@ -109,7 +107,10 @@ class ProductsActivity : AppCompatActivity() {
         onClickInputsClear()
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
-        onClickSettingsShowHide()
+
+        binding.settingsButton.setOnClickListener {
+            viewModel.onClickSettingsShowHide(binding.options)
+        }
 
         binding.lightMode.setOnClickListener {
             viewModel.toDarkModeChange(binding.lightMode, binding.darkMode)
@@ -125,18 +126,6 @@ class ProductsActivity : AppCompatActivity() {
 
         viewModel.allProducts.observe(::getLifecycle) { products ->
             productAdapter.updateProducts(products)
-        }
-    }
-
-    private fun onClickSettingsShowHide() {
-        binding.settingsButton.setOnClickListener {
-            if (binding.options.visibility == View.INVISIBLE) {
-                binding.options.visibility = View.VISIBLE
-                it.animate().setDuration(800).rotation(180F).start()
-            } else {
-                binding.options.visibility = View.INVISIBLE
-                it.animate().setDuration(800).rotation(-180F).start()
-            }
         }
     }
 
