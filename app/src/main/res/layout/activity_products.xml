@@ -132,7 +132,7 @@
             android:layout_gravity="end|top"
             android:contentDescription="@string/dark_mode"
             app:srcCompat="@drawable/ic_dark_mode"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <LinearLayout
             android:id="@+id/options"

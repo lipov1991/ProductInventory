@@ -1,9 +1,9 @@
 package pl.lanku.inventory.presentation.products
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +18,6 @@ import pl.lanku.inventory.R.string
 import pl.lanku.inventory.data.entity.Product
 import pl.lanku.inventory.databinding.ActivityProductsBinding
 import pl.lanku.inventory.presentation.productadapter.ProductAdapter
-import java.util.*
 
 class ProductsActivity : AppCompatActivity() {
     private val viewModel: ProductsViewModel by viewModel()
@@ -94,19 +93,15 @@ class ProductsActivity : AppCompatActivity() {
         val productAdapter = ProductAdapter(emptyList())
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         viewModel.localeDelegate.onCreate(this)
-
-        when (Locale.getDefault().language) {
-            "en" -> changeLanguage(Locale.getDefault().language)
-            "pl" -> changeLanguage(Locale.getDefault().language)
-            "de" -> changeLanguage(Locale.getDefault().language)
-            else -> changeLanguage("en")
-        }
+        binding.darkMode.visibility = View.VISIBLE
 
         textChangeSet()
         onClickSaveSet()
         onClickInputsClear()
         onClickScannerStartSet()
         onClickEditProductSet(productAdapter, layoutManager)
+        changeLanguage()
+        languageDetector()
 
         binding.settingsButton.setOnClickListener {
             viewModel.onClickSettingsShowHide(binding.options,it)
@@ -126,6 +121,33 @@ class ProductsActivity : AppCompatActivity() {
 
         viewModel.allProducts.observe(::getLifecycle) { products ->
             productAdapter.updateProducts(products)
+        }
+    }
+
+    private fun languageDetector() {
+        when (viewModel.deviceLanguage) {
+            "en" -> viewModel.setApplicationLanguage(viewModel.deviceLanguage)
+            "pl" -> viewModel.setApplicationLanguage(viewModel.deviceLanguage)
+            "de" -> viewModel.setApplicationLanguage(viewModel.deviceLanguage)
+            else -> viewModel.setApplicationLanguage("en")
+        }
+    }
+
+    private fun changeLanguage() {
+        binding.engButton.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.engchange, Toast.LENGTH_SHORT).show()
+            viewModel. changeBackgroundColor("en",binding.engButton,binding.polButton, binding.gerButton)
+            viewModel.setApplicationLanguage("en")
+        }
+        binding.polButton.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.polchange, Toast.LENGTH_SHORT).show()
+            viewModel.changeBackgroundColor("pl",binding.engButton,binding.polButton, binding.gerButton)
+            viewModel.setApplicationLanguage("pl")
+        }
+        binding.gerButton.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.gerchange, Toast.LENGTH_SHORT).show()
+            viewModel.changeBackgroundColor("de",binding.engButton,binding.polButton, binding.gerButton)
+            viewModel.setApplicationLanguage("de")
         }
     }
 
@@ -166,41 +188,6 @@ class ProductsActivity : AppCompatActivity() {
         binding.name.addTextChangedListener(formFiledValueChangeListener)
         binding.description.addTextChangedListener(formFiledValueChangeListener)
         binding.category.addTextChangedListener(formFiledValueChangeListener)
-    }
-
-    private fun changeLanguage(temp: String) {
-        binding.engButton.setOnClickListener {
-            Toast.makeText(this@ProductsActivity, string.engchange, Toast.LENGTH_SHORT).show()
-            changeBackgroundColor(temp)
-        }
-        binding.polButton.setOnClickListener {
-            Toast.makeText(this@ProductsActivity, string.polchange, Toast.LENGTH_SHORT).show()
-            changeBackgroundColor(temp)
-        }
-        binding.gerButton.setOnClickListener {
-            Toast.makeText(this@ProductsActivity, string.gerchange, Toast.LENGTH_SHORT).show()
-            changeBackgroundColor(temp)
-        }
-    }
-
-    private fun changeBackgroundColor(lan: String) {
-        when (lan) {
-            "en" -> {
-                binding.engButton.setBackgroundColor(Color.GREEN)
-                binding.polButton.setBackgroundColor(Color.alpha(0))
-                binding.gerButton.setBackgroundColor(Color.alpha(0))
-            }
-            "pl" -> {
-                binding.engButton.setBackgroundColor(Color.alpha(0))
-                binding.polButton.setBackgroundColor(Color.GREEN)
-                binding.gerButton.setBackgroundColor(Color.alpha(0))
-            }
-            "de" -> {
-                binding.engButton.setBackgroundColor(Color.alpha(0))
-                binding.polButton.setBackgroundColor(Color.alpha(0))
-                binding.gerButton.setBackgroundColor(Color.GREEN)
-            }
-        }
     }
 
     private fun onClickEditProductSet(
