@@ -1,5 +1,6 @@
 package pl.lanku.inventory.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,12 +17,12 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(product: Product)
 
-    @Query("DELETE FROM product;")
-    suspend fun deleteAll()
+    @Query("SELECT * FROM product WHERE ean LIKE :barcode")
+    fun selectOneItem(barcode: String):LiveData<Product>
 
-    @Query(
-        "SELECT * FROM product "+
-        "WHERE ean LIKE 5059334785836")
-    fun bbCodeItem():Flow<List<Product>>
+    @Query("SELECT COUNT(*) FROM product WHERE ean LIKE :barcode")
+    fun getRowCount(barcode:String):LiveData<Int>
 
+    @Query("DELETE FROM product WHERE ean LIKE :barcode")
+    fun removeProduct(barcode:String)
 }

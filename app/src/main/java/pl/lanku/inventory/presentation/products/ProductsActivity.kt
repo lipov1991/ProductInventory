@@ -3,143 +3,219 @@ package pl.lanku.inventory.presentation.products
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.lanku.inventory.R
-import pl.lanku.inventory.R.id.remove_product_button
-import pl.lanku.inventory.R.id.save_product_button
+import pl.lanku.inventory.R.string
 import pl.lanku.inventory.data.entity.Product
+import pl.lanku.inventory.databinding.ActivityProductsBinding
+import pl.lanku.inventory.presentation.productadapter.ProductAdapter
 
 class ProductsActivity : AppCompatActivity() {
-
-    companion object {
-        private const val MAIN_CAMERA_ID = 0
-    }
-
     private val viewModel: ProductsViewModel by viewModel()
-    private var barcodeContent: String = ""
-    private var nameDC: String = ""
-    private var descriptionDC: String = ""
-    private var categoryDC: String = ""
+    private lateinit var binding: ActivityProductsBinding
     private val barcodeLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents.isNullOrBlank()) {
                 setFormFieldsEnabled(false)
-                Toast.makeText(this@ProductsActivity, "Skanowanie anulowane", Toast.LENGTH_LONG).show()
+                cancelScanCode()
             } else {
+                viewModel.barcodeContent = result.contents
+                getRowCount()
                 setFormFieldsEnabled(true)
-                barcodeContent = result.contents
-                barcodeCheck()
             }
         }
-
-    private fun barcodeCheck (){
-        viewModel.selectedItem.observe(::getLifecycle) { products ->
-            findViewById<EditText>(R.id.name)?.let {
-                products.forEachIndexed { _, product ->
-                    findViewById<EditText>(R.id.name).text.let { product.name }
-                }
-            }
-            findViewById<EditText>(R.id.description)?.let {
-                products.forEachIndexed { _, product ->
-                    findViewById<EditText>(R.id.description).text.let { product.description }
-                }
-            }
-            findViewById<EditText>(R.id.category)?.let {
-                products.forEachIndexed { _, product ->
-                    findViewById<EditText>(R.id.category).text.let { product.category }
-                }
-            }
-        }
-    }
 
     private val formFiledValueChangeListener = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun afterTextChanged(editable: Editable) {
             validateForm()
         }
     }
 
-    private fun validateForm() {
-        nameDC = findViewById<EditText>(R.id.name).text.toString()
-        descriptionDC = findViewById<EditText>(R.id.description).text.toString()
-        categoryDC = findViewById<EditText>(R.id.category).text.toString()
-        findViewById<FloatingActionButton>(save_product_button)?.isEnabled =
-            barcodeContent.isNotBlank() && nameDC.isNotBlank() && descriptionDC.isNotBlank() && categoryDC.isNotBlank()
-
+    private fun getRowCount() {
+        viewModel.getRowCount(viewModel.barcodeContent).observe(::getLifecycle) {
+            if (it.toInt() > 0) {
+                barcodeCheck()
+            } else {
+                cleanET()
+            }
+        }
     }
 
-    private fun setFormFieldsEnabled(
-        enable: Boolean
-    ) {
-        findViewById<EditText>(R.id.name).isEnabled = enable
-        findViewById<EditText>(R.id.description).isEnabled = enable
-        findViewById<EditText>(R.id.category).isEnabled = enable
+    private fun barcodeCheck() {
+        viewModel.selectOneItem(viewModel.barcodeContent).observe(::getLifecycle) { product ->
+            binding.name.setText(product.name)
+            binding.description.setText(product.description)
+            binding.category.setText(product.category)
+        }
+    }
+
+    private fun cleanET() {
+        binding.name.text = null
+        binding.description.text = null
+        binding.category.text = null
+    }
+
+    private fun cancelScanCode() {
+        Toast.makeText(this@ProductsActivity, string.scaning_cancel, Toast.LENGTH_LONG).show()
+    }
+
+    private fun validateForm() {
+        viewModel.nameContent = binding.name.text.toString()
+        viewModel.descriptionContent = binding.description.text.toString()
+        viewModel.categoryContent = binding.category.text.toString()
+        binding.saveProductButton.isEnabled =
+            viewModel.barcodeContent.isNotBlank() && viewModel.nameContent.isNotBlank() && viewModel.descriptionContent.isNotBlank() && viewModel.categoryContent.isNotBlank()
+    }
+
+    private fun setFormFieldsEnabled(enable: Boolean) {
+        binding.name.isEnabled = enable
+        binding.description.isEnabled = enable
+        binding.category.isEnabled = enable
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
-        val nameET = findViewById<EditText>(R.id.name)
-        val descriptionET = findViewById<EditText>(R.id.description)
-        val categoryET = findViewById<EditText>(R.id.category)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_products)
+
+        val recyclerViewProducts = binding.recycler
+        val productAdapter = ProductAdapter(emptyList())
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        viewModel.localeDelegate.onCreate(this)
+        binding.darkMode.visibility = View.VISIBLE
+
+        textChangeSet()
+        onClickSaveSet()
+        onClickInputsClear()
+        onClickScannerStartSet()
+        onClickEditProductSet(productAdapter, layoutManager)
+        changeLanguage()
+        languageDetector()
+
+        binding.settingsButton.setOnClickListener {
+            viewModel.onClickSettingsShowHide(binding.options,it)
+        }
+
+        binding.lightMode.setOnClickListener {
+            viewModel.toDarkModeChange(binding.lightMode, binding.darkMode)
+        }
+
+        binding.darkMode.setOnClickListener {
+            viewModel.toLightModeChange(binding.lightMode, binding.darkMode)
+        }
+
+        recyclerViewProducts.adapter = productAdapter
+        recyclerViewProducts.layoutManager = layoutManager
+        recyclerViewProducts.setHasFixedSize(true)
+
         viewModel.allProducts.observe(::getLifecycle) { products ->
-            findViewById<TextView>(R.id.products_text_view)?.let { it ->
-                it.text = ""
-                products.forEachIndexed { index, product ->
-                    if (index == 0) {
-                        it.text = String.format(
-                            "• %s - %s - %s\n",
-                            product.name,
-                            product.description,
-                            product.category
-                        )
-                    } else {
-                        it.text = String.format(
-                            "%s\n• %s - %s - %s",
-                            it.text,
-                            product.name,
-                            product.category,
-                            product.description
-                        )
+            productAdapter.updateProducts(products)
+        }
+    }
+
+    private fun languageDetector() {
+        when (viewModel.deviceLanguage) {
+            "en" -> viewModel.setApplicationLanguage(viewModel.deviceLanguage)
+            "pl" -> viewModel.setApplicationLanguage(viewModel.deviceLanguage)
+            "de" -> viewModel.setApplicationLanguage(viewModel.deviceLanguage)
+            else -> viewModel.setApplicationLanguage("en")
+        }
+    }
+
+    private fun changeLanguage() {
+        binding.engButton.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.engchange, Toast.LENGTH_SHORT).show()
+            viewModel. changeBackgroundColor("en",binding.engButton,binding.polButton, binding.gerButton)
+            viewModel.setApplicationLanguage("en")
+        }
+        binding.polButton.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.polchange, Toast.LENGTH_SHORT).show()
+            viewModel.changeBackgroundColor("pl",binding.engButton,binding.polButton, binding.gerButton)
+            viewModel.setApplicationLanguage("pl")
+        }
+        binding.gerButton.setOnClickListener {
+            Toast.makeText(this@ProductsActivity, string.gerchange, Toast.LENGTH_SHORT).show()
+            viewModel.changeBackgroundColor("de",binding.engButton,binding.polButton, binding.gerButton)
+            viewModel.setApplicationLanguage("de")
+        }
+    }
+
+    private fun onClickScannerStartSet() {
+        binding.qrScanner.setOnClickListener {
+            barcodeLauncher.launch(
+                viewModel.scanBarcode(
+                    getString(string.qr_scanner_prompt)
+                )
+            )
+        }
+    }
+
+    private fun onClickSaveSet() {
+        binding.saveProductButton.setOnClickListener {
+            validateForm()
+            viewModel.save(
+                Product(
+                    viewModel.barcodeContent,
+                    viewModel.nameContent,
+                    viewModel.descriptionContent,
+                    viewModel.categoryContent
+                )
+            )
+            clearInputs()
+            setFormFieldsEnabled(false)
+        }
+    }
+
+    private fun clearInputs() {
+        viewModel.barcodeContent = null.toString()
+        binding.name.text.clear()
+        binding.description.text.clear()
+        binding.category.text.clear()
+    }
+
+    private fun textChangeSet() {
+        binding.name.addTextChangedListener(formFiledValueChangeListener)
+        binding.description.addTextChangedListener(formFiledValueChangeListener)
+        binding.category.addTextChangedListener(formFiledValueChangeListener)
+    }
+
+    private fun onClickEditProductSet(
+        productAdapter: ProductAdapter,
+        layoutManager: RecyclerView.LayoutManager
+    ) {
+        productAdapter.setOnClickItemListener(object : ProductAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                Toast.makeText(this@ProductsActivity, string.chose_item, Toast.LENGTH_SHORT).show()
+                layoutManager.findViewByPosition(position).let {
+                    if (it != null) {
+                        viewModel.barcodeContent =
+                            it.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
+                        binding.name.setText(it.findViewById<TextView>(R.id.recycler_name)?.text.toString())
+                        binding.description.setText(it.findViewById<TextView>(R.id.recycler_description)?.text.toString())
+                        binding.category.setText(it.findViewById<TextView>(R.id.recycler_category)?.text.toString())
+                        setFormFieldsEnabled(true)
+                        validateForm()
                     }
                 }
             }
-        }
+        })
+    }
 
-        findViewById<Button>(R.id.qrScanner).setOnClickListener {
-            val options = ScanOptions().apply {
-                setPrompt(getString(R.string.qr_scanner_prompt))
-                setCameraId(MAIN_CAMERA_ID)
-                setBeepEnabled(false)
-                setBarcodeImageEnabled(true)
-            }
-            barcodeLauncher.launch(options)
+    private fun onClickInputsClear() {
+        binding.clearInputs.setOnClickListener {
+            clearInputs()
+            validateForm()
         }
-
-        findViewById<FloatingActionButton>(save_product_button).setOnClickListener {
-            viewModel.save(Product(barcodeContent, nameDC, descriptionDC, categoryDC))
-            nameET.text.clear()
-            descriptionET.text.clear()
-            categoryET.text.clear()
-            setFormFieldsEnabled(false)
-        }
-
-        findViewById<FloatingActionButton>(remove_product_button).setOnClickListener {
-            viewModel.deleteAll()
-        }
-
-        nameET?.addTextChangedListener(formFiledValueChangeListener)
-        descriptionET?.addTextChangedListener(formFiledValueChangeListener)
-        categoryET?.addTextChangedListener(formFiledValueChangeListener)
     }
 }
