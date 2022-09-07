@@ -56,7 +56,6 @@ class ProductsViewModel(
     fun onClickSettingsShowHide(showLanguage: View, settingButton: View) =
         settingsHelperUtils.onClickSettingsShowHide(showLanguage, settingButton)
 
-
     fun changeBackgroundColor(temp:String,engButton:View,polButton:View, gerButton:View) =
         languageUtils.changeBackgroundColor(temp,engButton,polButton, gerButton)
 

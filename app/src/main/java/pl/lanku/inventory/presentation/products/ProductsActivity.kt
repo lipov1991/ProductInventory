@@ -53,10 +53,10 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun barcodeCheck() {
-        viewModel.selectOneItem(viewModel.barcodeContent).observe(::getLifecycle) { product ->
-            binding.name.setText(product.name)
-            binding.description.setText(product.description)
-            binding.category.setText(product.category)
+        viewModel.selectOneItem(viewModel.barcodeContent).observe(::getLifecycle) {
+            binding.name.setText(it.name)
+            binding.description.setText(it.description)
+            binding.category.setText(it.category)
         }
     }
 

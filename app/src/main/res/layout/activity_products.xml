@@ -123,7 +123,7 @@
             android:layout_gravity="end|top"
             android:contentDescription="@string/light_mode"
             app:srcCompat="@drawable/ic_light_mode"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/dark_mode"
@@ -132,7 +132,7 @@
             android:layout_gravity="end|top"
             android:contentDescription="@string/dark_mode"
             app:srcCompat="@drawable/ic_dark_mode"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/options"
