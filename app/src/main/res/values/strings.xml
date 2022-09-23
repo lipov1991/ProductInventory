@@ -1,36 +1,36 @@
 <resources>
     <string name="app_name">Inventory</string>
-    <string name="action_settings">Ustawienia</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">Pierwszy Fragment</string>
-    <string name="second_fragment_label">Drugi Fragment</string>
-    <string name="previous">Poprzedni</string>
-    <string name="next">Następny</string>
-    <string name="qr_scanner_prompt">"Zeskanuj kod produktu"</string>
-    <string name="name_of_product">Nazwa produktu</string>
-    <string name="description_of_product">Opis produktu</string>
-    <string name="category_of_product">Kategoria produktu</string>
+    <string name="first_fragment_label">First fragment label</string>
+    <string name="second_fragment_label">Second fragment label</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="qr_scanner_prompt">Scan the product code</string>
+    <string name="name_of_product">Produkt name</string>
+    <string name="description_of_product">Produkt description</string>
+    <string name="category_of_product">Product Category</string>
 
     <string name="icon_item">ITEM</string>
 
-    <string name="chose_item">Wybrano produkt</string>
-    <string name="scaning_cancel">Skanowanie anulowane</string>
-    <string name="clear_inputs">Wyczyść pola</string>
+    <string name="chose_item">Product choosed</string>
+    <string name="scaning_cancel">Scan canceled</string>
+    <string name="clear_inputs">Clear inputs</string>
 
-    <string name="remove_item">Usuń pozycję</string>
-    <string name="item_deleted">Produkt usunięty pomyślnie</string>
+    <string name="remove_item">Delete product</string>
+    <string name="item_deleted">Iten deleted successful</string>
 
-    <string name="language">Języki</string>
-    <string name="pol">Polski</string>
-    <string name="eng">Angielski</string>
-    <string name="ger">Niemiecki</string>
+    <string name="language">Language</string>
+    <string name="pol">Polish</string>
+    <string name="eng">English</string>
+    <string name="ger">Germany</string>
 
     <string name="polchange">Język zmieniono pomyślnie</string>
     <string name="engchange">Language changed successfully</string>
     <string name="gerchange">Sprache erfolgreich gewechselt</string>
 
-    <string name="settings">Ustawienia</string>
-    <string name="dark_mode">Ciemny tryb</string>
-    <string name="light_mode">Jasny tryb</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="light_mode">Light mode</string>
 </resources>

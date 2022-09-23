@@ -24,14 +24,13 @@ class LanguageUtils {
         }
     }
 
-    fun setApplicationLanguage(language:String){
-        //TODO()
-        
-//        when(language){
-//            "en" ->
-//            "pl" ->
-//            "de" ->
-//            else ->
+    fun setApplicationLanguage(language: String) {
+//        when (language) {
+//            "en" -> LocaleHelper().setLocale(this@LanguageUtils, language)
+//            "pl" -> LocaleHelper().setLocale(this@LanguageUtils, language)
+//            "de" -> LocaleHelper().setLocale(this@LanguageUtils, language)
+//            else -> LocaleHelper().setLocale(this@LanguageUtils, "en")
 //        }
     }
+
 }
