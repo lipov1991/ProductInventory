@@ -48,6 +48,8 @@ android {
 
 dependencies {
 
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
     def lifecycle_version = "2.5.1"
     def koin_version = "2.2.2"
     def ev_version = "1.0.4"

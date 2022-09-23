@@ -10,6 +10,20 @@
         android:orientation="horizontal"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.Inventory.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:popupTheme="@style/Theme.Inventory.PopupOverlay" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="415dp"
@@ -114,6 +128,7 @@
             android:layout_gravity="start|top"
             android:contentDescription="@string/settings"
             app:srcCompat="@drawable/ic_settings"
+            android:visibility="gone"
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
