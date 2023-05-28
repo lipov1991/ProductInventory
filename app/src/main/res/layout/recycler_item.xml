@@ -62,8 +62,7 @@
             android:layout_gravity="end|center"
             android:layout_margin="2dp"
             app:srcCompat="@drawable/ic_remove"
-            android:contentDescription="@string/remove_item"
-            android:background="@drawable/roundcorner" />
+            android:contentDescription="@string/remove_item" />
 
     </FrameLayout>
 </layout>

@@ -82,20 +82,28 @@
             android:minHeight="48dp"
             android:textColor="@color/teal_700" />
 
-        <EditText
+        <Spinner
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             android:layout_marginTop="150dp"
-            android:autofillHints=""
-            android:background="@drawable/ic_border_bottom"
-            android:ems="10"
-            android:enabled="false"
-            android:hint="@string/category_of_product"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textColor="@color/teal_700" />
+            android:minHeight="48dp" />
+
+<!--        <EditText-->
+<!--            android:id="@+id/category"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start|top"-->
+<!--            android:layout_marginTop="150dp"-->
+<!--            android:autofillHints=""-->
+<!--            android:background="@drawable/ic_border_bottom"-->
+<!--            android:ems="10"-->
+<!--            android:enabled="false"-->
+<!--            android:hint="@string/category_of_product"-->
+<!--            android:inputType="text"-->
+<!--            android:minHeight="48dp"-->
+<!--            android:textColor="@color/teal_700" />-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/qrScanner"
@@ -137,8 +145,8 @@
             android:layout_height="55dp"
             android:layout_gravity="end|top"
             android:contentDescription="@string/light_mode"
-            app:srcCompat="@drawable/ic_light_mode"
-            android:visibility="gone" />
+            app:srcCompat="@drawable/ic_light_mode" />
+<!--            android:visibility="gone" -->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/dark_mode"
@@ -149,44 +157,44 @@
             app:srcCompat="@drawable/ic_dark_mode"
             android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/options"
-            android:layout_width="wrap_content"
-            android:layout_height="51dp"
+    <LinearLayout
+        android:id="@+id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="51dp"
+        android:layout_gravity="start|top"
+        android:layout_marginStart="65dp"
+        android:visibility="invisible">
+
+        <ImageButton
+            android:id="@+id/ger_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="start|top"
-            android:layout_marginStart="65dp"
-            android:visibility="invisible">
+            android:backgroundTint="@color/zxing_transparent"
+            android:contentDescription="@string/ger"
+            app:srcCompat="@drawable/de_flag" />
 
-            <ImageButton
-                android:id="@+id/ger_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="start|top"
-                android:backgroundTint="@color/zxing_transparent"
-                android:contentDescription="@string/ger"
-                app:srcCompat="@drawable/de_flag" />
+        <ImageButton
+            android:id="@+id/pol_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center|top"
+            android:backgroundTint="@color/zxing_transparent"
+            android:contentDescription="@string/pol"
+            app:srcCompat="@drawable/pl_flag"
+            android:layout_marginStart="15dp"/>
 
-            <ImageButton
-                android:id="@+id/pol_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center|top"
-                android:backgroundTint="@color/zxing_transparent"
-                android:contentDescription="@string/pol"
-                app:srcCompat="@drawable/pl_flag"
-                android:layout_marginStart="15dp"/>
+        <ImageButton
+            android:id="@+id/eng_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:backgroundTint="@color/zxing_transparent"
+            android:contentDescription="@string/eng"
+            app:srcCompat="@drawable/gb_flag"
+            android:layout_marginStart="15dp"/>
 
-            <ImageButton
-                android:id="@+id/eng_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="end"
-                android:backgroundTint="@color/zxing_transparent"
-                android:contentDescription="@string/eng"
-                app:srcCompat="@drawable/gb_flag"
-                android:layout_marginStart="15dp"/>
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </FrameLayout>
+</FrameLayout>
 </layout>

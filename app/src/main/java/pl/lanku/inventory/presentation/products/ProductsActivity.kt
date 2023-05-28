@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -57,14 +56,14 @@ class ProductsActivity : AppCompatActivity() {
         viewModel.selectOneItem(viewModel.barcodeContent).observe(::getLifecycle) {
             binding.name.setText(it.name)
             binding.description.setText(it.description)
-            binding.category.setText(it.category)
+//            binding.category.setText(it.category)
         }
     }
 
     private fun cleanET() {
         binding.name.text = null
         binding.description.text = null
-        binding.category.text = null
+//        binding.category.text = null
     }
 
     private fun cancelScanCode() {
@@ -74,7 +73,7 @@ class ProductsActivity : AppCompatActivity() {
     private fun validateForm() {
         viewModel.nameContent = binding.name.text.toString()
         viewModel.descriptionContent = binding.description.text.toString()
-        viewModel.categoryContent = binding.category.text.toString()
+//        viewModel.categoryContent = binding.category.text.toString()
         binding.saveProductButton.isEnabled =
             viewModel.barcodeContent.isNotBlank() && viewModel.nameContent.isNotBlank() && viewModel.descriptionContent.isNotBlank() && viewModel.categoryContent.isNotBlank()
     }
@@ -90,12 +89,12 @@ class ProductsActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.action_settings -> true
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -194,13 +193,13 @@ class ProductsActivity : AppCompatActivity() {
         viewModel.barcodeContent = null.toString()
         binding.name.text.clear()
         binding.description.text.clear()
-        binding.category.text.clear()
+//        binding.category.text.clear()
     }
 
     private fun textChangeSet() {
         binding.name.addTextChangedListener(formFiledValueChangeListener)
         binding.description.addTextChangedListener(formFiledValueChangeListener)
-        binding.category.addTextChangedListener(formFiledValueChangeListener)
+//        binding.category.addTextChangedListener(formFiledValueChangeListener)
     }
 
     private fun onClickEditProductSet(
@@ -216,7 +215,7 @@ class ProductsActivity : AppCompatActivity() {
                             it.findViewById<TextView>(R.id.recycler_ean)?.text.toString()
                         binding.name.setText(it.findViewById<TextView>(R.id.recycler_name)?.text.toString())
                         binding.description.setText(it.findViewById<TextView>(R.id.recycler_description)?.text.toString())
-                        binding.category.setText(it.findViewById<TextView>(R.id.recycler_category)?.text.toString())
+//                        binding.category.setText(it.findViewById<TextView>(R.id.recycler_category)?.text.toString())
                         setFormFieldsEnabled(true)
                         validateForm()
                     }
